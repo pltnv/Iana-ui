@@ -6,14 +6,18 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "format": "prettier --write \"src/**/*.{js,jsx,vue}\""
   },
   "dependencies": {
-    "vue": "^3.2.45"
+    "vue": "^3.2.45",
+    "vue-router": "^4.0.0-0"
   },
   "devDependencies": {
+    "@mdi/font": "^7.1.96",
     "@vitejs/plugin-vue": "^4.0.0",
-    "vite": "^4.1.0",
-    "@mdi/font": "^7.1.96"
+    "prettier": "^2.8.4",
+    "sass": "^1.58.3",
+    "vite": "^4.1.0"
   }
 }
