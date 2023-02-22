@@ -48,11 +48,11 @@ export default {
         return ["xs", "sm", "md", "lg", "xl"].indexOf(value) !== -1;
       }
     },
-    block: Boolean,
-    disabled: Boolean,
-    ripple: Boolean,
+    block: { type: Boolean, default: false },
+    disabled: { type: Boolean, default: false },
+    ripple: { type: Boolean, default: false },
     iconLeft: String,
-    iconRoght: String,
+    iconRight: String,
     iconRightColor: String,
     iconLeftColor: String
   },

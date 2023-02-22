@@ -23,8 +23,8 @@ export default {
     label: String,
     modelValue: Boolean,
     color: String,
-    disabled: Boolean,
-    ripple: Boolean
+    disabled: { type: Boolean, default: false },
+    ripple: { type: Boolean, default: false }
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {

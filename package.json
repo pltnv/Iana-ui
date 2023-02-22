@@ -7,17 +7,29 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "format": "prettier --write \"src/**/*.{js,jsx,vue}\""
+    "format": "prettier --write \"src/**/*.{js,jsx,vue}\"",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "dependencies": {
     "vue": "^3.2.45",
     "vue-router": "^4.0.0-0"
   },
   "devDependencies": {
+    "@babel/core": "^7.21.0",
     "@mdi/font": "^7.1.96",
+    "@storybook/addon-actions": "^6.5.16",
+    "@storybook/addon-essentials": "^6.5.16",
+    "@storybook/addon-interactions": "^6.5.16",
+    "@storybook/addon-links": "^6.5.16",
+    "@storybook/builder-vite": "^0.4.2",
+    "@storybook/testing-library": "^0.0.13",
+    "@storybook/vue3": "^6.5.16",
     "@vitejs/plugin-vue": "^4.0.0",
+    "babel-loader": "^8.3.0",
     "prettier": "^2.8.4",
     "sass": "^1.58.3",
-    "vite": "^4.1.0"
+    "vite": "^4.1.0",
+    "vue-loader": "^16.8.3"
   }
 }
