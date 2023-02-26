@@ -84,11 +84,6 @@ export default {
     margin-right: 10px;
     cursor: pointer;
 
-    &:hover::after {
-      width: 44px;
-      height: 44px;
-    }
-
     &::before {
       content: "✔";
       text-align: center;
@@ -112,6 +107,11 @@ export default {
       transition: width 0.1s, height 0.1s;
       pointer-events: none;
       opacity: 0.8;
+    }
+
+    &:hover::after {
+      width: 44px;
+      height: 44px;
     }
   }
 }

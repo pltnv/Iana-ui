@@ -15,6 +15,6 @@ const Template = (args) => ({
 
 export const Primary = Template.bind({});
 Primary.args = {
-  disabled: true,
+  disabled: false,
   label: "Button"
 };

@@ -5,9 +5,9 @@
     :type="type"
     :disabled="disabled"
     class="i-button"
-    :class="[`i-button--${size}`, { 'i-button--block': block }]"
-    :style="{ color: color, borderRadius: rounded }"
-    @click="click"
+    :class="getClass"
+    :style="{ color: color, borderRadius: round }"
+    @click="handleClick"
   >
     <i
       v-if="iconLeft"
@@ -15,7 +15,9 @@
       :class="iconLeft"
       :style="{ color: iconLeftColor }"
     ></i>
+
     <span v-if="label" class="i-button__label"> {{ label }}</span>
+
     <i
       v-if="iconRight"
       class="mdi i-button__icon-right"
@@ -26,7 +28,9 @@
 </template>
 
 <script>
-export default {
+import { defineComponent, computed } from "vue";
+
+export default defineComponent({
   name: "I-Button",
   props: {
     id: String,
@@ -40,12 +44,20 @@ export default {
         return ["button", "submit", "reset"].indexOf(value) !== -1;
       }
     },
-    rounded: String,
+    round: String,
+    rounded: Boolean,
     size: {
       type: String,
       default: "sm",
       validator: (value) => {
         return ["xs", "sm", "md", "lg", "xl"].indexOf(value) !== -1;
+      }
+    },
+    variant: {
+      type: String,
+      default: "default",
+      validator: (value) => {
+        return ["default", "flat", "outlined"].indexOf(value) !== -1;
       }
     },
     block: { type: Boolean, default: false },
@@ -57,9 +69,18 @@ export default {
     iconLeftColor: String
   },
   setup(props, { emit }) {
-    return {};
+    const getClass = computed(() => {
+      return {
+        "i-button--block": props.block,
+        "i-button--rounded": props.rounded,
+        [`i-button--${props.size}`]: true,
+        [`i-button--${props.variant}`]: true
+      };
+    });
+
+    return { getClass };
   }
-};
+});
 </script>
 
 <style lang="scss">
@@ -68,6 +89,7 @@ export default {
   align-items: center;
   padding: 10px;
   background-color: transparent;
+  border: none;
   cursor: pointer;
 
   &--block {
@@ -93,6 +115,27 @@ export default {
 
   &--xl {
     height: 52px;
+  }
+
+  &--flat {
+    background-color: transparent;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+
+  &--outlined {
+    border: 1px solid black;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+
+  &--rounded {
+    border-radius: 10px;
   }
 
   &:disabled {
