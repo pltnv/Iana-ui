@@ -19,8 +19,10 @@
       close-delay="300"
       position="bottom"
       style="margin-left: 40px"
+      min-width="10px"
+      max-width="100px"
     >
-      <template #tip> Keep trying </template>
+      <template #tip> Keep trying keep keep keep keep keep</template>
       <i-button
         size="md"
         label="Show me a tip"

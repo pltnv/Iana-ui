@@ -7,10 +7,11 @@
       v-if="showTip"
       class="i-tip__content"
       :class="`i-tip__content--${position}`"
+      :style="{ minWidth: minWidth, maxWidth: maxWidth }"
     >
-      <div v-if="$slots.tip">
+      <template v-if="$slots.tip">
         <slot name="tip"> </slot>
-      </div>
+      </template>
       <div v-else v-text="tip" />
     </div>
   </div>
@@ -37,7 +38,9 @@ export default {
       default: true
     },
     tip: String,
-    permanent: Boolean
+    permanent: Boolean,
+    maxWidth: String,
+    minWidth: String
   },
 
   setup(props, { emit }) {
@@ -77,8 +80,9 @@ export default {
     border-radius: 10px;
     padding: 8px 10px;
     opacity: 0.7;
-    width: 100%;
-
+    height: auto;
+    white-space: wrap;
+    word-wrap: break-word;
     &--top {
       bottom: calc(100% + 10px);
       left: 50%;
