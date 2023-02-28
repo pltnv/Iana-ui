@@ -1,6 +1,6 @@
 <template>
   <div>
-    <i-checkbox v-model="testValue" label="Выбрать опцию" color="red" />
+    <i-checkbox v-model="testValue" label="Choose" color="red" />
     <i-button
       size="md"
       label="djgiejgiej"
@@ -32,27 +32,42 @@
         rounded
       ></i-button>
     </i-tip>
+
+    <i-notifications
+      message="Item is deleted from the cart"
+      type="error"
+      duration="20000"
+      @close="close"
+    />
   </div>
 </template>
 
 <script>
+import { ref } from "vue";
 import ICheckbox from "./components/ICheckbox/ICheckbox.vue";
 import IButton from "./components/IButton/IButton.vue";
 import ITip from "./components/ITip/ITip.vue";
-import { ref } from "vue";
+import INotifications from "./components/INotifications/INotifications.vue";
 
 export default {
   name: "App.vue",
   components: {
     ICheckbox,
     IButton,
-    ITip
+    ITip,
+    INotifications
   },
   setup(props, { emit }) {
     let testValue = ref(true);
 
+    const close = () => {
+      alert("emit: close");
+    };
+
     return {
-      testValue
+      testValue,
+
+      close
     };
   }
 };
