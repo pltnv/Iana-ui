@@ -39,6 +39,8 @@
       duration="20000"
       @close="close"
     />
+    <br />
+    <i-upload multiple @file-selected="onFileSelected" />
   </div>
 </template>
 
@@ -48,6 +50,7 @@ import ICheckbox from "./components/ICheckbox/ICheckbox.vue";
 import IButton from "./components/IButton/IButton.vue";
 import ITip from "./components/ITip/ITip.vue";
 import INotifications from "./components/INotifications/INotifications.vue";
+import IUpload from "./components/IUpload/IUpload.vue";
 
 export default {
   name: "App.vue",
@@ -55,19 +58,27 @@ export default {
     ICheckbox,
     IButton,
     ITip,
-    INotifications
+    INotifications,
+    IUpload
   },
   setup(props, { emit }) {
     let testValue = ref(true);
+    let selectedFile = ref();
 
     const close = () => {
       alert("emit: close");
     };
 
+    const onFileSelected = (files) => {
+      selectedFile.value = files.value;
+    };
+
     return {
       testValue,
+      selectedFile,
 
-      close
+      close,
+      onFileSelected
     };
   }
 };
