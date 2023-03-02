@@ -9,12 +9,22 @@
         @change="handleFile($event)"
         class="i-upload__default"
       />
-      <div class="i-upload__button">{{ files ? "Change" : "Upload" }}</div>
+      <div
+        class="i-upload__drop"
+        :class="{ 'i-upload__drop--dragging': dragging }"
+        @dragover.prevent="dragging = true"
+        @dragleave.prevent="dragging = false"
+        @drop.prevent="handleDrop"
+      >
+        <div class="i-upload__drop__button">
+          {{ files ? "Change" : "Upload" }}
+        </div>
+      </div>
     </label>
 
-    <div v-for="(file, index) in files" :key="file.name" class="i-upload__file">
+    <div v-for="(file, index) in files" :key="file.name" class="i-upload__info">
       <div>Название файла {{ file.name }}</div>
-      <div>Вес файла {{ convertSizes(file.size) }}</div>
+      <div>Вес файла {{ formatSize(file.size) }}</div>
       <div class="mdi mdi-close" @click="removeFile(index)" />
     </div>
   </div>
@@ -28,14 +38,16 @@ export default {
   props: {
     id: String,
     accept: String,
-    multiple: Boolean
+    multiple: Boolean,
+    maxFiles: String
   },
 
   setup(props, { emit }) {
     let files = ref();
+    let dragging = ref(false);
 
-    const handleFile = (e) => {
-      files.value = Array.from(e.target.files).map((file) => ({
+    const formatFiles = (rawObjectFiles) => {
+      return Array.from(rawObjectFiles).map((file) => ({
         name: file.name,
         size: file.size,
         type: file.type,
@@ -43,13 +55,34 @@ export default {
       }));
     };
 
-    const convertSizes = (size) => {
-      const i = Math.floor(Math.log(size) / Math.log(1024));
+    const formatSize = (size) => {
+      const deg = Math.floor(Math.log(size) / Math.log(1024));
       return (
-        (size / Math.pow(1024, i)).toFixed(2) * 1 +
+        (size / Math.pow(1024, deg)).toFixed(2) * 1 +
         " " +
-        ["B", "kB", "MB", "GB", "TB"][i]
+        ["B", "kB", "MB", "GB", "TB"][deg]
       );
+    };
+
+    const handleFile = (e) => {
+      if (
+        props.multiple &&
+        Array.from(e.target.files).length > props.maxFiles
+      ) {
+        return;
+      }
+      files.value = formatFiles(e.target.files);
+    };
+
+    const handleDrop = (e) => {
+      if (
+        props.multiple &&
+        Array.from(e.dataTransfer.files).length > props.maxFiles
+      ) {
+        return;
+      }
+      dragging.value = false;
+      files.value = formatFiles(e.dataTransfer.files);
     };
 
     const removeFile = (i) => {
@@ -59,20 +92,34 @@ export default {
     watch(
       () => files.value,
       (updatedFiles) => {
-        emit("file-updated", updatedFiles);
+        emit("file", updatedFiles);
       }
     );
 
-    return { files, handleFile, convertSizes, removeFile };
+    return {
+      files,
+      dragging,
+
+      formatFiles,
+      handleFile,
+      formatSize,
+      removeFile,
+      handleDrop
+    };
   }
 };
 </script>
 
 <style lang="scss">
 .i-upload {
-  border: 1px solid green;
-  padding: 14px;
   display: inline-block;
+  padding: 14px;
+  border-radius: 14px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 4px;
+
+  &--disabled {
+    cursor: not-allowed;
+  }
 
   &__default {
     color: black;
@@ -80,7 +127,23 @@ export default {
     display: none;
   }
 
-  &__file {
+  &__drop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 100px;
+    background: rgb(231, 227, 227);
+    background-clip: padding-box;
+    border: 1px dashed #4ad4d2;
+
+    &--dragging {
+      background: red;
+      background-clip: padding-box;
+    }
+  }
+
+  &__info {
     font-size: 14px;
   }
 

@@ -40,7 +40,7 @@
       @close="close"
     />
     <br />
-    <i-upload multiple @file-selected="onFileSelected" />
+    <i-upload multiple max-files="2" @file="onFileSelected" />
   </div>
 </template>
 
