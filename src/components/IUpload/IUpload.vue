@@ -64,21 +64,22 @@ export default {
       );
     };
 
+    const checkFileCount = (filesFromEvent, limit) => {
+      if (props.multiple && Array.from(filesFromEvent).length > limit) {
+        return true;
+      }
+      return false;
+    };
+
     const handleFile = (e) => {
-      if (
-        props.multiple &&
-        Array.from(e.target.files).length > props.maxFiles
-      ) {
+      if (checkFileCount(e.target.files, props.maxFiles)) {
         return;
       }
       files.value = formatFiles(e.target.files);
     };
 
     const handleDrop = (e) => {
-      if (
-        props.multiple &&
-        Array.from(e.dataTransfer.files).length > props.maxFiles
-      ) {
+      if (checkFileCount(e.dataTransfer.files, props.maxFiles)) {
         return;
       }
       dragging.value = false;
@@ -101,10 +102,11 @@ export default {
       dragging,
 
       formatFiles,
-      handleFile,
       formatSize,
-      removeFile,
-      handleDrop
+      checkFileCount,
+      handleFile,
+      handleDrop,
+      removeFile
     };
   }
 };
