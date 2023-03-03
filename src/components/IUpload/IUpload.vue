@@ -47,12 +47,14 @@ export default {
     let dragging = ref(false);
 
     const formatFiles = (rawObjectFiles) => {
-      return Array.from(rawObjectFiles).map((file) => ({
-        name: file.name,
-        size: file.size,
-        type: file.type,
-        lastModified: file.lastModified
-      }));
+      return [...rawObjectFiles].map((file) => {
+        return {
+          name: file.name,
+          size: file.size,
+          type: file.type,
+          lastModified: file.lastModified
+        };
+      });
     };
 
     const formatSize = (size) => {
@@ -64,8 +66,8 @@ export default {
       );
     };
 
-    const checkFileCount = (filesFromEvent, limit) => {
-      if (props.multiple && Array.from(filesFromEvent).length > limit) {
+    const checkFileCount = (dragEventFiles, limit) => {
+      if (props.multiple && [...dragEventFiles].length > limit) {
         return true;
       }
       return false;
