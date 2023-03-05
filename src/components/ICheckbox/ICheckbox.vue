@@ -8,8 +8,8 @@
         :disabled="disabled"
         @change="updateValue($event.target.checked)"
       />
-      <span class="i-checkbox__custom"></span>
-      {{ label }}
+      <span class="i-checkbox__custom" />
+      <div v-text="label" />
     </label>
   </div>
 </template>
@@ -77,21 +77,21 @@ export default {
     position: relative;
     width: 20px;
     height: 20px;
-    background: white;
     border-radius: 5px;
     border: 2px solid #807c7c;
-    text-align: left;
     margin-right: 10px;
+    background: white;
+    text-align: left;
     cursor: pointer;
 
     &::before {
       content: "✔";
-      text-align: center;
       position: absolute;
       left: 10%;
       top: 10%;
       width: 3px;
       height: 3px;
+      text-align: center;
       transition: 0.1s ease-out;
       opacity: 0;
     }
@@ -101,8 +101,8 @@ export default {
       position: absolute;
       top: 50%;
       left: 50%;
-      background-color: rgba(0, 0, 0, 0.2);
       border-radius: 50%;
+      background-color: rgba(0, 0, 0, 0.2);
       transform: translate(-50%, -50%);
       transition: width 0.1s, height 0.1s;
       pointer-events: none;
@@ -114,12 +114,12 @@ export default {
       height: 44px;
     }
   }
-}
 
-.label {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  cursor: pointer;
+  .label {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+  }
 }
 </style>

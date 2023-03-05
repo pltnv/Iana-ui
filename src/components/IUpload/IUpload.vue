@@ -6,25 +6,25 @@
         type="file"
         :accept="accept"
         :multiple="multiple"
-        @change="handleFile($event)"
         class="i-upload__default"
+        @change="handleFile($event)"
       />
       <div
-        class="i-upload__drop"
-        :class="{ 'i-upload__drop--dragging': dragging }"
+        class="i-upload__drop-zone"
+        :class="{ 'i-upload__drop-zone--dragging': dragging }"
         @dragover.prevent="dragging = true"
         @dragleave.prevent="dragging = false"
         @drop.prevent="handleDrop"
       >
-        <div class="i-upload__drop__button">
+        <div class="i-upload__drop-zone__button">
           {{ files ? "Change" : "Upload" }}
         </div>
       </div>
     </label>
 
     <div v-for="(file, index) in files" :key="file.name" class="i-upload__info">
-      <div>Название файла {{ file.name }}</div>
-      <div>Вес файла {{ formatSize(file.size) }}</div>
+      <div>Name {{ file.name }}</div>
+      <div>Size {{ formatSize(file.size) }}</div>
       <div class="mdi mdi-close" @click="removeFile(index)" />
     </div>
   </div>
@@ -126,12 +126,11 @@ export default {
   }
 
   &__default {
-    color: black;
     visibility: hidden;
-    display: none;
+    position: absolute;
   }
 
-  &__drop {
+  &__drop-zone {
     display: flex;
     justify-content: center;
     align-items: center;

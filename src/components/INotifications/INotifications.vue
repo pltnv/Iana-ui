@@ -9,8 +9,8 @@
       v-if="duration"
       class="i-notification__progress-bar"
       :style="`width: ${progress}%`"
-    ></div>
-    <div class="i-notification__close mdi mdi-close" @click="close" />
+    />
+    <div class="i-notification__close-btn mdi mdi-close" @click="close" />
   </div>
 </template>
 
@@ -121,7 +121,7 @@ export default {
     transition: width 0.1s ease-in-out;
   }
 
-  &__close {
+  &__close-btn {
     position: absolute;
     top: 6px;
     right: 6px;

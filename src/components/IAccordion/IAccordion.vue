@@ -53,7 +53,6 @@ export default {
 
     const toggleAccordion = () => {
       showAccordion.value = !showAccordion.value;
-      console.log(showAccordion.value);
     };
 
     return { showAccordion, toggleAccordion };

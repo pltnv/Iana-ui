@@ -47,16 +47,23 @@ export default {
     let showTip = ref(false);
 
     const openTip = () => {
-      setTimeout(() => {
-        showTip.value = true;
-      }, props.openDelay);
+      if (props.openDelay) {
+        setTimeout(() => {
+          showTip.value = true;
+        }, props.openDelay);
+      }
+      showTip.value = true;
     };
 
     const closeTip = () => {
-      setTimeout(() => {
-        showTip.value = false;
-      }, props.closeDelay);
+      if (props.closeDelay) {
+        setTimeout(() => {
+          showTip.value = false;
+        }, props.closeDelay);
+      }
+      showTip.value = false;
     };
+
     return {
       showTip,
 
@@ -73,16 +80,17 @@ export default {
   display: inline-block;
 
   &__content {
-    position: absolute;
     z-index: 15;
+    position: absolute;
+    height: auto;
+    padding: 8px 10px;
+    border-radius: 10px;
     background-color: #000;
     color: #fff;
-    border-radius: 10px;
-    padding: 8px 10px;
     opacity: 0.7;
-    height: auto;
     white-space: wrap;
     word-wrap: break-word;
+
     &--top {
       bottom: calc(100% + 10px);
       left: 50%;
@@ -92,9 +100,9 @@ export default {
 
     &--right {
       top: 50%;
-      transform: translateY(-50%);
       left: calc(100% + 10px);
       right: auto;
+      transform: translateY(-50%);
     }
 
     &--bottom {
@@ -106,9 +114,9 @@ export default {
 
     &--left {
       top: 50%;
+      left: auto;
       transform: translateY(-50%);
       right: calc(100% + 10px);
-      left: auto;
     }
   }
 
