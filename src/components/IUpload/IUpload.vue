@@ -17,7 +17,9 @@
         @drop.prevent="handleDrop"
       >
         <div class="i-upload__drop-zone__button">
-          {{ files ? "Change" : "Upload" }}
+          {{
+            files ? "Change files" : "Drag some files here, or click to select"
+          }}
         </div>
       </div>
     </label>
@@ -136,9 +138,11 @@ export default {
     align-items: center;
     width: 100px;
     height: 100px;
+    padding: 10px;
     background: rgb(231, 227, 227);
     background-clip: padding-box;
     border: 1px dashed #4ad4d2;
+    cursor: pointer;
 
     &--dragging {
       background: red;

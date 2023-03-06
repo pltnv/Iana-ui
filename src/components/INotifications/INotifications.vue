@@ -79,12 +79,12 @@ export default {
 .i-notification {
   position: relative;
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
   width: 200px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   border-radius: 10px;
-  padding: 6px 12px;
+  padding: 16px 12px 6px;
   min-height: 40px;
 
   &--defailt {
@@ -125,6 +125,7 @@ export default {
     position: absolute;
     top: 6px;
     right: 6px;
+    cursor: pointer;
   }
 }
 </style>
