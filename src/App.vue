@@ -50,17 +50,20 @@
       round="14"
     >
     </i-accordion>
+    <br />
+    <i-select v-model="selectedItem" :items="selectItems" label="Choose smth" />
   </div>
 </template>
 
 <script>
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import ICheckbox from "./components/ICheckbox/ICheckbox.vue";
 import IButton from "./components/IButton/IButton.vue";
 import ITip from "./components/ITip/ITip.vue";
 import INotifications from "./components/INotifications/INotifications.vue";
 import IUpload from "./components/IUpload/IUpload.vue";
 import IAccordion from "./components/IAccordion/IAccordion.vue";
+import ISelect from "./components/ISelect/ISelect.vue";
 
 export default {
   name: "App.vue",
@@ -70,11 +73,19 @@ export default {
     ITip,
     INotifications,
     IUpload,
-    IAccordion
+    IAccordion,
+    ISelect
   },
   setup(props, { emit }) {
     let testValue = ref(true);
     let selectedFile = ref();
+
+    let selectedItem = ref();
+    const selectItems = ref([
+      { text: "Первый", value: "first" },
+      { text: "Второй", value: "second" },
+      { text: "Третий", value: "third" }
+    ]);
 
     const close = () => {
       alert("emit: close");
@@ -84,9 +95,17 @@ export default {
       selectedFile.value = files.value;
     };
 
+    onMounted(() => {
+      setInterval(() => {
+        console.log(selectedItem.value);
+      }, 4000);
+    });
+
     return {
       testValue,
       selectedFile,
+      selectItems,
+      selectedItem,
 
       close,
       onFileSelected
