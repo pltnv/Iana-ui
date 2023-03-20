@@ -56,7 +56,7 @@ export default {
       showOptions.value = !showOptions.value;
     };
 
-    return { showOptions, toggleOptions, selectItem };
+    return { showOptions, toggleShowOptions, selectItem };
   }
 };
 </script>
@@ -66,7 +66,6 @@ export default {
   width: 300px;
   padding: 10px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 1px 2px;
-  color: black;
 
   &__label {
     display: flex;

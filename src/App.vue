@@ -52,11 +52,13 @@
     </i-accordion>
     <br />
     <i-select v-model="selectedItem" :items="selectItems" label="Choose smth" />
+    <br />
+    <i-code amount="4" />
   </div>
 </template>
 
 <script>
-import { onMounted, ref } from "vue";
+import { ref } from "vue";
 import ICheckbox from "./components/ICheckbox/ICheckbox.vue";
 import IButton from "./components/IButton/IButton.vue";
 import ITip from "./components/ITip/ITip.vue";
@@ -64,6 +66,7 @@ import INotifications from "./components/INotifications/INotifications.vue";
 import IUpload from "./components/IUpload/IUpload.vue";
 import IAccordion from "./components/IAccordion/IAccordion.vue";
 import ISelect from "./components/ISelect/ISelect.vue";
+import ICode from "./components/ICode/ICode.vue";
 
 export default {
   name: "App.vue",
@@ -74,7 +77,8 @@ export default {
     INotifications,
     IUpload,
     IAccordion,
-    ISelect
+    ISelect,
+    ICode
   },
   setup(props, { emit }) {
     let testValue = ref(true);
@@ -82,9 +86,9 @@ export default {
 
     let selectedItem = ref();
     const selectItems = ref([
-      { text: "Первый", value: "first" },
-      { text: "Второй", value: "second" },
-      { text: "Третий", value: "third" }
+      { text: "First option", value: "first" },
+      { text: "Second option", value: "second" },
+      { text: "Third option", value: "third" }
     ]);
 
     const close = () => {
@@ -94,12 +98,6 @@ export default {
     const onFileSelected = (files) => {
       selectedFile.value = files.value;
     };
-
-    onMounted(() => {
-      setInterval(() => {
-        console.log(selectedItem.value);
-      }, 4000);
-    });
 
     return {
       testValue,
