@@ -53,7 +53,7 @@
     <br />
     <i-select v-model="selectedItem" :items="selectItems" label="Choose smth" />
     <br />
-    <i-code amount="4" />
+    <i-code amount="4" divider="*" type="text" />
   </div>
 </template>
 
