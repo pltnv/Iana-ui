@@ -12,6 +12,8 @@
         :readonly="readonly"
         :disabled="disabled"
         class="i-otp-input__field"
+        :class="[`i-otp-input__field--${size}`]"
+        :style="{ borderColor: borderColor, color: color }"
         @input="handleInput($event, index)"
       />
       <span
@@ -24,7 +26,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 
 export default {
   name: "ICode",
@@ -40,10 +42,18 @@ export default {
     size: String,
     disabled: Boolean,
     readonly: Boolean,
+    borderColor: String,
+    color: String,
     type: {
       default: "number",
       validator: (value) => {
         return ["number", "text", "password"].indexOf(value) !== -1;
+      }
+    },
+    size: {
+      default: "md",
+      validator: (value) => {
+        return ["sm", "md", "lg"].indexOf(value) !== -1;
       }
     }
   },
@@ -65,6 +75,18 @@ export default {
       }
     };
 
+    // onMounted(() => {
+    //   localValue.value = props.modelValue;
+    //   console.log(localValue.value);
+    // });
+
+    // watch(
+    //   () => localValue.value,
+    //   (newLocalValue) => {
+    //     emit("input", newLocalValue);
+    //   }
+    // );
+
     return {
       localValue,
       input,
@@ -83,9 +105,6 @@ export default {
 
   &__field {
     text-align: center;
-    width: 30px;
-    height: 30px;
-    font-size: 30px;
     border: 1px solid #ccc;
     border-radius: 6px;
     overflow: hidden;
@@ -104,6 +123,24 @@ export default {
     &[type="number"]::-webkit-inner-spin-button {
       -webkit-appearance: none;
       margin: 0;
+    }
+
+    &--sm {
+      width: 24px;
+      height: 24px;
+      font-size: 20px;
+    }
+
+    &--md {
+      width: 36px;
+      height: 36px;
+      font-size: 30px;
+    }
+
+    &--lg {
+      width: 48px;
+      height: 48px;
+      font-size: 40px;
     }
   }
 
