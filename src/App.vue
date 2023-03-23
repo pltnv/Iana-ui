@@ -53,12 +53,19 @@
     <br />
     <i-select v-model="selectedItem" :items="selectItems" label="Choose smth" />
     <br />
-    <i-code amount="4" divider="*" type="text" size="md" border-color="green" />
+    <i-code
+      v-model="otp"
+      amount="4"
+      divider="*"
+      type="text"
+      size="md"
+      border-color="green"
+    />
   </div>
 </template>
 
 <script>
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import ICheckbox from "./components/ICheckbox/ICheckbox.vue";
 import IButton from "./components/IButton/IButton.vue";
 import ITip from "./components/ITip/ITip.vue";
@@ -83,7 +90,7 @@ export default {
   setup(props, { emit }) {
     let testValue = ref(true);
     let selectedFile = ref();
-    let otp = ref("");
+    let otp = ref("123355");
 
     let selectedItem = ref();
     const selectItems = ref([

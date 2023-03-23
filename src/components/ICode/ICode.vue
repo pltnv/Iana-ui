@@ -5,7 +5,6 @@
         ref="input"
         v-model.trim="localValue[index]"
         :type="type"
-        autofocus
         maxlength="1"
         min="0"
         max="9"
@@ -26,10 +25,11 @@
 </template>
 
 <script>
-import { onMounted, ref, watch } from "vue";
+import { ref, watch } from "vue";
 
 export default {
   name: "ICode",
+  emits: ["update:modelValue"],
   props: {
     id: String,
     modelValue: String,
@@ -59,7 +59,9 @@ export default {
   },
 
   setup(props, { emit }) {
-    let localValue = ref([]);
+    let localValue = ref([
+      ...props.modelValue.slice(0, props.amount).split("")
+    ]);
 
     const input = ref(null);
 
@@ -75,17 +77,18 @@ export default {
       }
     };
 
-    // onMounted(() => {
-    //   localValue.value = props.modelValue;
-    //   console.log(localValue.value);
-    // });
+    watch(
+      () => props.modelValue,
+      (newValue) => {
+        localValue.value = [...newValue.slice(0, props.amount).split("")];
+      }
+    );
 
-    // watch(
-    //   () => localValue.value,
-    //   (newLocalValue) => {
-    //     emit("input", newLocalValue);
-    //   }
-    // );
+    // todo: fix binding
+    // watchEffect(() => {
+    //   const otpString = [...localValue.value].join("");
+    //   emit("update:modelValue", otpString);
+    // });
 
     return {
       localValue,
