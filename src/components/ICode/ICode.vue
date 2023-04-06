@@ -5,6 +5,7 @@
         ref="input"
         v-model.trim="localValue[index]"
         :type="type"
+        autofocus
         maxlength="1"
         min="0"
         max="9"
@@ -77,18 +78,14 @@ export default {
       }
     };
 
-    watch(
-      () => props.modelValue,
-      (newValue) => {
-        localValue.value = [...newValue.slice(0, props.amount).split("")];
-      }
-    );
+    watch(props.modelValue, (newValue) => {
+      localValue.value = [...newValue.slice(0, props.amount).split("")];
+    });
 
-    // todo: fix binding
-    // watchEffect(() => {
-    //   const otpString = [...localValue.value].join("");
-    //   emit("update:modelValue", otpString);
-    // });
+    watch(localValue.value, () => {
+      const otpString = localValue.value.join("");
+      emit("update:modelValue", otpString);
+    });
 
     return {
       localValue,

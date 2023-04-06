@@ -78,7 +78,7 @@ export default {
     width: 20px;
     height: 20px;
     border-radius: 5px;
-    border: 2px solid #807c7c;
+    border: 1px solid #807c7c;
     margin-right: 10px;
     background: white;
     text-align: left;

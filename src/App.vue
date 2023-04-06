@@ -92,8 +92,9 @@ export default {
     let selectedFile = ref();
     let otp = ref("123355");
 
-    let selectedItem = ref();
+    let selectedItem = ref("second");
     const selectItems = ref([
+      { text: "Choose smth", value: "" },
       { text: "First option", value: "first" },
       { text: "Second option", value: "second" },
       { text: "Third option", value: "third" }
