@@ -92,7 +92,7 @@ export default {
     let selectedFile = ref();
     let otp = ref("123355");
 
-    let selectedItem = ref("second");
+    let selectedItem = ref({ text: "Third option", value: "third" });
     const selectItems = ref([
       { text: "Choose smth", value: "" },
       { text: "First option", value: "first" },
@@ -122,4 +122,3 @@ export default {
 };
 </script>
 
-<style scoped></style>

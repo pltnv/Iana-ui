@@ -3,37 +3,49 @@
     :id="id"
     :name="name"
     class="i-select"
-    :class="{ 'i-select--disabled': disabled, 'i-select--readonly': readonly }"
+    :class="selectClasses"
+    v-click-outside="clickOutsude"
   >
-    <div class="i-select__label" @click="toggleShowOptions">
-      <div v-if="selectedItem" v-text="selectedItem" />
-      <div v-else>{{ label }}</div>
+    <div
+      class="i-select__label"
+      :class="[`i-select__label--${variant}`]"
+      @click="toggleShowOptions"
+    >
+      <div v-if="selectedItem" v-text="selectedItem.text" />
+      <div v-else v-text="label" />
+
       <div class="chevron" :class="{ 'chevron--up': showOptions }">
         <i class="mdi mdi-chevron-down" />
       </div>
     </div>
-    <div v-if="showOptions" class="options">
-      <div
-        v-for="item in items"
-        :key="item.value"
-        class="i-select__option"
-        @click="selectItem(item.value)"
-      >
-        {{ item.text }}
+
+    <Transition name="options">
+      <div v-if="showOptions" class="options">
+        <div
+          v-for="item in items"
+          :key="item.value"
+          class="i-select__option"
+          :class="{
+            'i-select__option--active': item.value == selectedItem.value
+          }"
+          @click="selectItem(item)"
+        >
+          {{ item.text }}
+        </div>
       </div>
-    </div>
+    </Transition>
   </div>
 </template>
 
 <script>
-import { ref, watch, toRef } from "vue";
+import { ref, watch, computed, toRef } from "vue";
 
 export default {
   name: "ISelect",
   props: {
     id: String,
     name: String,
-    modelValue: String,
+    modelValue: Object,
     items: Array,
     label: String,
     multiple: Boolean,
@@ -45,7 +57,7 @@ export default {
       type: String,
       default: "default",
       validator: (value) => {
-        return ["default", "flat", "outlined"].indexOf(value) !== -1;
+        return ["default", "underline"].indexOf(value) !== -1;
       }
     },
     clearable: Boolean
@@ -54,30 +66,43 @@ export default {
 
   setup(props, { emit }) {
     let showOptions = ref(false);
-    let selectedItem = ref(props.modelValue || "");
+    let selectedItem = ref(props.modelValue || {});
     let modelValueRef = toRef(props, "modelValue");
 
-    const selectItem = (itemValue) => {
-      selectedItem.value = itemValue;
-      showOptions.value = false;
-      emit("update:modelValue", itemValue);
-    };
+    const selectClasses = computed(() => {
+      return {
+        "i-select--disabled": props.disabled,
+        "i-select--readonly": props.readonly
+      };
+    });
 
     const toggleShowOptions = () => {
       showOptions.value = !showOptions.value;
     };
 
-    watch(modelValueRef, (updatedmodelValueRef) => {
-      selectedItem.value = updatedmodelValueRef;
+    const selectItem = (itemValue) => {
+      selectedItem.value = itemValue;
+      showOptions.value = false;
+      emit("update:modelValue", selectedItem.value);
+    };
+
+    const clickOutsude = () => {
+      showOptions.value = false;
+    };
+
+    watch(modelValueRef, (updatedModelValueRef) => {
+      selectedItem.value = updatedModelValueRef;
     });
 
     return {
       showOptions,
       selectedItem,
       modelValueRef,
+      selectClasses,
 
       toggleShowOptions,
-      selectItem
+      selectItem,
+      clickOutsude
     };
   }
 };
@@ -86,7 +111,6 @@ export default {
 <style lang="scss">
 .i-select {
   width: 300px;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 1px 2px;
 
   &--disabled {
     pointer-events: none;
@@ -102,6 +126,13 @@ export default {
     display: flex;
     justify-content: space-between;
     padding: 10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    border-bottom: 1px solid transparent;
+
+    &--underline {
+      box-shadow: none;
+      border-bottom: 1px solid rgb(105, 104, 104);
+    }
 
     .chevron {
       transition: all 0.1s linear;
@@ -114,6 +145,7 @@ export default {
 
   .options {
     border-top: 1px solid rgb(105, 104, 104);
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 1px 2px;
   }
 
   &__option {
@@ -122,6 +154,20 @@ export default {
     &:hover {
       background: #f0f0f0;
     }
+
+    &.i-select__option--active {
+      background: #b9b6b6;
+    }
+  }
+
+  .options-enter-active,
+  .options-leave-active {
+    transition: opacity 0.1s ease-in;
+  }
+
+  .options-enter-from,
+  .options-leave-to {
+    opacity: 0;
   }
 }
 </style>
