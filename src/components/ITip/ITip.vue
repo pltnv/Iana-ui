@@ -80,7 +80,7 @@ export default {
   display: inline-block;
 
   &__content {
-    z-index: 15;
+    z-index: 1;
     position: absolute;
     height: auto;
     padding: 8px 10px;

@@ -8,7 +8,7 @@
   >
     <div
       class="i-select__label"
-      :class="[`i-select__label--${variant}`]"
+      :class="labelClasses"
       @click="toggleShowOptions"
     >
       <div v-if="selectedItem" v-text="selectedItem.text" />
@@ -60,6 +60,13 @@ export default {
         return ["default", "underline"].indexOf(value) !== -1;
       }
     },
+    type: {
+      type: String,
+      default: "default",
+      validator: (value) => {
+        return ["default", "rounded"].indexOf(value) !== -1;
+      }
+    },
     clearable: Boolean
   },
   emits: ["update:modelValue"],
@@ -74,6 +81,13 @@ export default {
         "i-select--disabled": props.disabled,
         "i-select--readonly": props.readonly
       };
+    });
+
+    const labelClasses = computed(() => {
+      return [
+        `i-select__label--${props.variant}`,
+        `i-select__label--${props.type}`
+      ];
     });
 
     const toggleShowOptions = () => {
@@ -99,6 +113,7 @@ export default {
       selectedItem,
       modelValueRef,
       selectClasses,
+      labelClasses,
 
       toggleShowOptions,
       selectItem,
@@ -132,6 +147,10 @@ export default {
     &--underline {
       box-shadow: none;
       border-bottom: 1px solid rgb(105, 104, 104);
+    }
+
+    &--rounded {
+      border-radius: 10px;
     }
 
     .chevron {

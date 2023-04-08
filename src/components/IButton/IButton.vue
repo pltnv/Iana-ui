@@ -85,10 +85,11 @@ export default defineComponent({
 
 <style lang="scss">
 .i-button {
-  display: flex;
+  display: inline-block;
   align-items: center;
   padding: 10px;
   background-color: transparent;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 1px 2px;
   border: none;
   cursor: pointer;
 
@@ -122,7 +123,7 @@ export default defineComponent({
     transition: background-color 0.3s ease;
 
     &:hover {
-      opacity: 0.5;
+      opacity: 0.6;
     }
   }
 
@@ -130,7 +131,7 @@ export default defineComponent({
     border: 1px solid black;
 
     &:hover {
-      opacity: 0.5;
+      opacity: 0.6;
     }
   }
 

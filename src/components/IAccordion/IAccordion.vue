@@ -63,6 +63,7 @@ export default {
 <style lang="scss">
 .i-accordion {
   box-shadow: rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  border-radius: 10px;
 
   &__title {
     display: flex;

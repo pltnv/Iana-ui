@@ -3,7 +3,7 @@
     <i-checkbox v-model="testValue" label="Choose" color="red" />
     <i-button
       size="md"
-      label="djgiejgiej"
+      label="button"
       iconLeft="mdi-chevron-down"
       iconRight="mdi-chevron-down"
       iconLeftColor="green"
@@ -47,7 +47,7 @@
       title="What is FAQ?"
       content="It's a list of questions and answers relating to a particular subject, especially one giving basic information for users of a website"
       width="300"
-      round="14"
+      round="8"
     >
     </i-accordion>
     <br />
@@ -121,4 +121,3 @@ export default {
   }
 };
 </script>
-
