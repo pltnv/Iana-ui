@@ -74,6 +74,7 @@ import IUpload from "./components/IUpload/IUpload.vue";
 import IAccordion from "./components/IAccordion/IAccordion.vue";
 import ISelect from "./components/ISelect/ISelect.vue";
 import ICode from "./components/ICode/ICode.vue";
+import IInput from "./components/IInput/IInput.vue";
 
 export default {
   name: "App.vue",
@@ -85,7 +86,8 @@ export default {
     IUpload,
     IAccordion,
     ISelect,
-    ICode
+    ICode,
+    IInput
   },
   setup(props, { emit }) {
     let testValue = ref(true);
