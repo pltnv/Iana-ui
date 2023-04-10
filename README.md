@@ -9,6 +9,7 @@
 - **OTP**
 - **Tip**
 - **Checkbox**
+- **Input**
 
 ## Recommended IDE Setup
 
