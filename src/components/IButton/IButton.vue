@@ -5,7 +5,7 @@
     :type="type"
     :disabled="disabled"
     class="i-button"
-    :class="getClasses"
+    :class="classes"
     :style="{ color: color, borderRadius: round }"
     @click="handleClick"
   >
@@ -69,7 +69,7 @@ export default defineComponent({
     iconLeftColor: String
   },
   setup(props, { emit }) {
-    const getClasses = computed(() => {
+    const classes = computed(() => {
       return {
         "i-button--block": props.block,
         "i-button--rounded": props.rounded,
@@ -78,7 +78,11 @@ export default defineComponent({
       };
     });
 
-    return { getClasses };
+    const handleClick = () => {
+      emit("click");
+    };
+
+    return { classes, handleClick };
   }
 });
 </script>

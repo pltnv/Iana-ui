@@ -10,6 +10,7 @@
       color="red"
       variant="outlined"
       rounded
+      @click="click"
     ></i-button>
     <br />
     <i-tip
@@ -116,6 +117,10 @@ export default {
       alert("emit: close");
     };
 
+    const click = () => {
+      alert("emit: click");
+    };
+
     const onFileSelected = (files) => {
       selectedFile.value = files.value;
     };
@@ -129,6 +134,7 @@ export default {
       inputValue,
 
       close,
+      click,
       onFileSelected
     };
   }
