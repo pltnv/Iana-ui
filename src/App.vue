@@ -61,6 +61,14 @@
       size="md"
       border-color="green"
     />
+    <i-input
+      v-model="inputValue"
+      maxlength="100"
+      variant="outlined"
+      count
+      type="password"
+      clearable
+    />
   </div>
 </template>
 
@@ -102,6 +110,8 @@ export default {
       { text: "Third option", value: "third" }
     ]);
 
+    let inputValue = ref("text");
+
     const close = () => {
       alert("emit: close");
     };
@@ -116,6 +126,7 @@ export default {
       selectItems,
       selectedItem,
       otp,
+      inputValue,
 
       close,
       onFileSelected

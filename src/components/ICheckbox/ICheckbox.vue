@@ -28,9 +28,9 @@ export default {
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
-    function updateValue(newValue) {
+    let updateValue = (newValue) => {
       emit("update:modelValue", newValue);
-    }
+    };
 
     return {
       updateValue
@@ -117,8 +117,8 @@ export default {
 
   .label {
     display: flex;
-    justify-content: flex-start;
     align-items: center;
+    justify-content: flex-start;
     cursor: pointer;
   }
 }
