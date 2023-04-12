@@ -92,6 +92,7 @@ export default defineComponent({
   display: inline-block;
   align-items: center;
   padding: 10px;
+  width: 140px; // to fix
   background-color: transparent;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 1px 2px;
   border: none;

@@ -119,6 +119,7 @@ export default {
 <style lang="scss">
 .i-upload {
   display: inline-block;
+  width: 220px;
   padding: 14px;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 4px;

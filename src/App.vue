@@ -1,6 +1,7 @@
 <template>
-  <div>
+  <div class="container">
     <i-checkbox v-model="testValue" label="Choose" color="red" />
+
     <i-button
       size="md"
       label="button"
@@ -11,28 +12,29 @@
       variant="outlined"
       rounded
       @click="click"
-    ></i-button>
-    <br />
-    <i-tip
-      id="2013"
-      tip="Use it"
-      open-delay="150"
-      close-delay="300"
-      position="bottom"
-      style="margin-left: 40px"
-      min-width="10px"
-      max-width="100px"
-    >
-      <template #tip> Keep trying keep keep keep keep keep</template>
-      <i-button
-        size="md"
-        label="Show me a tip"
-        iconLeftColor="green"
-        color="red"
-        variant="outlined"
-        rounded
-      ></i-button>
-    </i-tip>
+    />
+
+    <div class="tip">
+      <i-tip
+        id="2013"
+        tip="Use it"
+        open-delay="150"
+        close-delay="300"
+        position="bottom"
+        min-width="10px"
+        max-width="100px"
+      >
+        <template #tip> Keep trying keep keep keep keep keep</template>
+        <i-button
+          size="md"
+          label="Show me a tip"
+          iconLeftColor="green"
+          color="red"
+          variant="outlined"
+          rounded
+        />
+      </i-tip>
+    </div>
 
     <i-notifications
       message="Item is deleted from the cart"
@@ -40,20 +42,24 @@
       duration="20000"
       @close="close"
     />
-    <br />
+
     <i-upload multiple max-files="2" @file="onFileSelected" />
-    <br />
-    <br />
+
     <i-accordion
       title="What is FAQ?"
       content="It's a list of questions and answers relating to a particular subject, especially one giving basic information for users of a website"
       width="300"
       round="8"
-    >
-    </i-accordion>
-    <br />
-    <i-select v-model="selectedItem" :items="selectItems" label="Choose smth" />
-    <br />
+      block
+    />
+
+    <i-select
+      v-model="selectedItem"
+      :items="selectItems"
+      label="Choose smth"
+      multiple
+    />
+
     <i-code
       v-model="otp"
       amount="4"
@@ -62,6 +68,7 @@
       size="md"
       border-color="green"
     />
+
     <i-input
       v-model="inputValue"
       maxlength="100"
@@ -140,3 +147,16 @@ export default {
   }
 };
 </script>
+
+<style scoped lang="scss">
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .tip {
+    width: 130px;
+    margin-left: 40px;
+  }
+}
+</style>

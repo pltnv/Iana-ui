@@ -68,7 +68,8 @@ export default {
     clearable: Boolean,
     count: Boolean,
     error: Boolean,
-    errorMessage: String
+    errorMessage: String,
+    block: Boolean
   },
   emits: ["update:modelValue"],
   setup(props, { emit }) {
@@ -94,7 +95,8 @@ export default {
         `i-input--${props.variant}`,
         {
           error: props.error && !props.disabled,
-          "i-input--disabled": props.disabled
+          "i-input--disabled": props.disabled,
+          "i-input--block": props.block
         }
       ];
     });
@@ -159,6 +161,10 @@ export default {
     border: 1px solid;
     border-color: rgb(242, 48, 48);
     box-shadow: none;
+  }
+
+  &--block {
+    width: 100%;
   }
 
   &--outlined {

@@ -2,6 +2,7 @@
   <div
     class="i-accordion"
     :style="{ width: `${width}px`, borderRadius: `${round}px` }"
+    :class="{ 'i-accordion--block': block }"
   >
     <div
       class="i-accordion__title"
@@ -45,7 +46,8 @@ export default {
     },
     alwaysOpened: Boolean,
     content: String,
-    round: String
+    round: String,
+    block: Boolean
   },
 
   setup(props, { emit }) {
@@ -64,6 +66,10 @@ export default {
 .i-accordion {
   box-shadow: rgba(0, 0, 0, 0.24) 0px 1px 2px;
   border-radius: 10px;
+
+  &--block {
+    width: 100%;
+  }
 
   &__title {
     display: flex;

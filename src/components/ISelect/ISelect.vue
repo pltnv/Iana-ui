@@ -53,6 +53,7 @@ export default {
     minWidth: String,
     disabled: Boolean,
     readonly: Boolean,
+    block: Boolean,
     variant: {
       type: String,
       default: "default",
@@ -79,7 +80,8 @@ export default {
     const selectClasses = computed(() => {
       return {
         "i-select--disabled": props.disabled,
-        "i-select--readonly": props.readonly
+        "i-select--readonly": props.readonly,
+        "i-select--block": props.block
       };
     });
 
@@ -135,6 +137,10 @@ export default {
   &--readonly {
     pointer-events: none;
     opacity: 1;
+  }
+
+  &--block {
+    width: 100%;
   }
 
   &__label {
