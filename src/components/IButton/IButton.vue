@@ -57,7 +57,9 @@ export default defineComponent({
       type: String,
       default: "default",
       validator: (value) => {
-        return ["default", "flat", "outlined"].indexOf(value) !== -1;
+        return (
+          ["default", "flat", "outlined", "text", "plain"].indexOf(value) !== -1
+        );
       }
     },
     block: { type: Boolean, default: false },
@@ -123,6 +125,10 @@ export default defineComponent({
     height: 52px;
   }
 
+  &--rounded {
+    border-radius: 10px;
+  }
+
   &--flat {
     background-color: transparent;
     transition: background-color 0.3s ease;
@@ -133,19 +139,36 @@ export default defineComponent({
   }
 
   &--outlined {
-    border: 1px solid black;
+    box-shadow: none;
+    border: 1px solid gray;
 
     &:hover {
       opacity: 0.6;
     }
   }
 
-  &--rounded {
-    border-radius: 10px;
+  &--text {
+    border: none;
+    box-shadow: none;
+  }
+
+  &:hover {
+    background: rgb(237, 235, 235);
+  }
+
+  &--plain {
+    border: none;
+    box-shadow: none;
+
+    &:hover {
+      background: none;
+    }
   }
 
   &:disabled {
     pointer-events: none;
+    background: none;
+    opacity: 0.5;
   }
 }
 </style>
