@@ -77,6 +77,8 @@
       type="password"
       clearable
     />
+
+    <i-slider count="6" controller :items="sliderItems" />
   </div>
 </template>
 
@@ -91,6 +93,7 @@ import IAccordion from "./components/IAccordion/IAccordion.vue";
 import ISelect from "./components/ISelect/ISelect.vue";
 import ICode from "./components/ICode/ICode.vue";
 import IInput from "./components/IInput/IInput.vue";
+import ISlider from "./components/ISlider/ISlider.vue";
 
 export default {
   name: "App.vue",
@@ -103,7 +106,8 @@ export default {
     IAccordion,
     ISelect,
     ICode,
-    IInput
+    IInput,
+    ISlider
   },
   setup(props, { emit }) {
     let testValue = ref(true);
@@ -119,6 +123,16 @@ export default {
     ]);
 
     let inputValue = ref("text");
+
+    const sliderItems = ref([
+      { text: "f", src: "./assets/sliderImages/1.jpeg", alt: "first" },
+      {
+        text: "s",
+        src: "./assets/sliderImages/2.jpeg",
+        alt: "second"
+      },
+      { text: "th", src: "./assets/sliderImages/3.jpeg", alt: "third" }
+    ]);
 
     const close = () => {
       alert("emit: close");
@@ -139,6 +153,7 @@ export default {
       selectedItem,
       otp,
       inputValue,
+      sliderItems,
 
       close,
       click,

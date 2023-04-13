@@ -10,6 +10,7 @@
 - **Tip**
 - **Checkbox**
 - **Input**
+- **Slider**
 
 ## Recommended IDE Setup
 
