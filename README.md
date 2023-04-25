@@ -11,6 +11,11 @@
 - **Checkbox**
 - **Input**
 - **Slider**
+- **Overlay**
+
+## Directives
+
+- **click-outside**
 
 ## Recommended IDE Setup
 

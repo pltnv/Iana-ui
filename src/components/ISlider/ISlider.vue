@@ -25,7 +25,6 @@
 import { ref, onMounted } from "vue";
 
 export default {
-  components: { Button },
   name: "ISlider",
   props: {
     id: String,

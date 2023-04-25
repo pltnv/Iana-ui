@@ -74,11 +74,11 @@
       maxlength="100"
       variant="outlined"
       count
-      type="password"
       clearable
     />
 
     <i-slider count="6" controller :items="sliderItems" />
+    <i-overlay v-if="showOverlay" />
   </div>
 </template>
 
@@ -94,6 +94,7 @@ import ISelect from "./components/ISelect/ISelect.vue";
 import ICode from "./components/ICode/ICode.vue";
 import IInput from "./components/IInput/IInput.vue";
 import ISlider from "./components/ISlider/ISlider.vue";
+import IOverlay from "./components/IOverlay/IOverlay.vue";
 
 export default {
   name: "App.vue",
@@ -107,7 +108,8 @@ export default {
     ISelect,
     ICode,
     IInput,
-    ISlider
+    ISlider,
+    IOverlay
   },
   setup(props, { emit }) {
     let testValue = ref(true);
@@ -134,6 +136,8 @@ export default {
       { text: "th", src: "./assets/sliderImages/3.jpeg", alt: "third" }
     ]);
 
+    let showOverlay = ref(false);
+
     const close = () => {
       alert("emit: close");
     };
@@ -154,6 +158,7 @@ export default {
       otp,
       inputValue,
       sliderItems,
+      showOverlay,
 
       close,
       click,
