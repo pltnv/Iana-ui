@@ -77,7 +77,7 @@
       clearable
     />
 
-    <i-slider count="6" controller :items="sliderItems" />
+    <i-slider count="6" controller :items="sliderItems" loop />
     <i-overlay v-if="showOverlay" />
   </div>
 </template>
@@ -127,13 +127,13 @@ export default {
     let inputValue = ref("text");
 
     const sliderItems = ref([
-      { text: "f", src: "./assets/sliderImages/1.jpeg", alt: "first" },
+      { text: "f", src: "../src/assets/sliderImages/1.jpeg", alt: "first" },
       {
         text: "s",
-        src: "./assets/sliderImages/2.jpeg",
+        src: "../src/assets/sliderImages/2.png",
         alt: "second"
       },
-      { text: "th", src: "./assets/sliderImages/3.jpeg", alt: "third" }
+      { text: "th", src: "../src/assets/sliderImages/3.jpeg", alt: "third" }
     ]);
 
     let showOverlay = ref(false);

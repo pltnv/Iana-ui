@@ -1,16 +1,33 @@
 <template>
-  <div :id="id" :name="name" class="i-slider">
-    <div v-for="(slide, i) in items" :key="slide" class="container">
+  <div
+    :id="id"
+    :name="name"
+    class="i-slider"
+    :class="{ 'i-slider--disabled': disabled }"
+  >
+    <div v-for="(slide, i) in items" :key="`slide-${i}`" class="slider">
       <div v-if="i === activeSlideIndex" class="i-slider__slide">
-        {{ slide.text }}
+        <img :src="slide.src" />
+
+        <div class="icon-wrapper">
+          <i
+            class="i-slider__button i-slider__button--prev mdi mdi-chevron-left"
+            @click="setPrevSlide"
+          />
+        </div>
+        <div class="icon-wrapper">
+          <i
+            class="i-slider__button i-slider__button--next mdi mdi-chevron-right"
+            @click="setNextSlide"
+          />
+        </div>
       </div>
     </div>
-    <button @click="setPrevSlide">orev</button>
-    <button @click="setNextSlide">next</button>
+
     <div v-if="controller" class="controllers">
       <div
-        v-for="(el, i) in items.length"
-        :key="i"
+        v-for="(_, i) in items.length"
+        :key="`controller-${i}`"
         class="i-slider__controller"
         :class="{ 'i-slider__controller--active': i === activeSlideIndex }"
         @click="setActiveSlide(i)"
@@ -22,7 +39,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 
 export default {
   name: "ISlider",
@@ -34,44 +51,50 @@ export default {
     disabled: Boolean,
     readonly: Boolean,
     block: Boolean,
-    variant: {
-      type: String,
-      default: "default",
-      validator: (value) => {
-        return ["default", "underline"].indexOf(value) !== -1;
-      }
-    },
+    loop: Boolean,
     controller: Boolean,
     count: String || Number
   },
   emits: ["update:modelValue"],
 
   setup(props, { emit }) {
-    let activeSlideIndex = ref("");
+    let activeSlideIndex = ref(0);
 
-    let setActiveSlide = (i) => {
+    const setActiveSlide = (i) => {
+      if (props.readonly) return;
+
       activeSlideIndex.value = i;
-      console.log(activeSlideIndex.value);
     };
 
-    let setPrevSlide = () => {
-      if (activeSlideIndex.value <= 0) return;
+    const setPrevSlide = () => {
+      if (props.readonly) return;
+
+      if (activeSlideIndex.value <= 0) {
+        if (props.loop) {
+          activeSlideIndex.value = props.items.length - 1;
+          return;
+        }
+        return;
+      }
       activeSlideIndex.value -= 1;
-      console.log("prev");
     };
 
-    let setNextSlide = () => {
-      if (activeSlideIndex.value >= props.items.length - 1) return;
+    const setNextSlide = () => {
+      if (props.readonly) return;
+
+      if (activeSlideIndex.value >= props.items.length - 1) {
+        if (props.loop) {
+          activeSlideIndex.value = 0;
+          return;
+        }
+        return;
+      }
       activeSlideIndex.value += 1;
-      console.log("next");
     };
-
-    onMounted(() => {
-      activeSlideIndex.value = 0;
-    });
 
     return {
       activeSlideIndex,
+
       setActiveSlide,
       setNextSlide,
       setPrevSlide
@@ -83,23 +106,66 @@ export default {
 <style lang="scss">
 .i-slider {
   color: gray;
+  width: 200px;
+  height: 200px;
+
+  &--disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  .slider {
+    width: 100%;
+  }
 
   &__slide {
+    position: relative;
+    width: 100%;
     color: red;
+
+    img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+  }
+
+  &__button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    color: rgb(118, 113, 113);
+    font-size: 40px;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &--prev {
+      left: 0;
+      transform: translateX(-50%) translateY(-50%);
+    }
+
+    &--next {
+      right: 0;
+      transform: translateX(50%) translateY(-50%);
+    }
   }
 
   .controllers {
     display: flex;
-    flex-direction: row;
+    align-items: center;
+    justify-content: center;
     gap: 4px;
   }
 
   &__controller {
-    background: rgb(227, 222, 222);
-    color: transparent;
-    border-radius: 50%;
     width: 14px;
     height: 14px;
+    background: rgb(227, 222, 222);
+    border-radius: 50%;
+    color: transparent;
 
     &:hover {
       background: rgb(174, 170, 170);
