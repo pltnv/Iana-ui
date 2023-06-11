@@ -9,13 +9,14 @@
       :placeholder="placeholder"
       :readonly="readonly"
       :type="localType"
+      @blur="handleBlur"
       @input="updateValue($event.target.value)"
     />
     <div v-if="clearable && localValue.length && !disabled && !readonly">
       <i class="mdi mdi-close" @click="clear" />
     </div>
     <div class="info">
-      <span v-if="count" v-text="amount" />
+      <span v-if="count && amount > 0" v-text="amount" />
       <span v-if="count && maxlength"> / </span>
       <span v-if="maxlength" v-text="maxlength" />
     </div>
@@ -106,6 +107,10 @@ export default {
       emit("update:modelValue", newValue);
     };
 
+    let handleBlur = () => {
+      emit("blur");
+    };
+
     let clear = () => {
       localValue.value = "";
     };
@@ -139,6 +144,7 @@ export default {
       passwordIcon,
 
       updateValue,
+      handleBlur,
       clear,
       toggleShowPassword
     };
@@ -150,11 +156,12 @@ export default {
 .i-input {
   display: flex;
   align-items: center;
-  gap: 2px;
+  gap: 4px;
   position: relative;
   width: 280px;
   height: 30px;
   padding: 6px;
+  border: 1px solid transparent;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 1px 2px;
 

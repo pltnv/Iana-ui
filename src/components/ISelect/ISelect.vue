@@ -4,7 +4,7 @@
     :name="name"
     class="i-select"
     :class="selectClasses"
-    v-click-outside="clickOutsude"
+    v-click-outside="clickOutside"
   >
     <div
       class="i-select__label"
@@ -102,7 +102,7 @@ export default {
       emit("update:modelValue", selectedItem.value);
     };
 
-    const clickOutsude = () => {
+    const clickOutside = () => {
       showOptions.value = false;
     };
 
@@ -119,7 +119,7 @@ export default {
 
       toggleShowOptions,
       selectItem,
-      clickOutsude
+      clickOutside
     };
   }
 };

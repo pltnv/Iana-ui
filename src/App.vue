@@ -9,7 +9,7 @@
       iconRight="mdi-chevron-down"
       iconLeftColor="green"
       color="red"
-      variant="plain"
+      variant="text"
       rounded
       @click="click"
     />
