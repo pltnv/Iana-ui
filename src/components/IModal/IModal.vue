@@ -53,16 +53,20 @@ const cancel = () => {
           <slot name="title" />
         </template>
         <div v-else class="i-modal__title" v-text="title" />
+
         <i class="i-modal__close mdi mdi-close" @click="close" />
       </div>
+
       <div class="i-modal__default">
         <slot name="default" />
       </div>
+
       <template>
         <div class="i-modal__footer">
           <template v-if="$slots.footer">
             <slot name="footer" />
           </template>
+
           <template v-else>
             <i-button
               v-if="showAcceptButton"
