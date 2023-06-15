@@ -79,6 +79,8 @@
 
     <i-slider count="6" controller :items="sliderItems" loop />
     <i-overlay v-if="showOverlay" />
+    <i-modal v-model="showModal" title="Some text" />
+    <button @click="showModal = true" />
   </div>
 </template>
 
@@ -94,6 +96,7 @@ import ISelect from "./components/ISelect/ISelect.vue";
 import ICode from "./components/ICode/ICode.vue";
 import IInput from "./components/IInput/IInput.vue";
 import ISlider from "./components/ISlider/ISlider.vue";
+import IModal from "./components/IModal/IModal.vue";
 import IOverlay from "./components/IOverlay/IOverlay.vue";
 
 export default {
@@ -109,6 +112,7 @@ export default {
     ICode,
     IInput,
     ISlider,
+    IModal,
     IOverlay
   },
   setup(props, { emit }) {
@@ -137,6 +141,7 @@ export default {
     ]);
 
     let showOverlay = ref(false);
+    let showModal = ref(false);
 
     const close = () => {
       alert("emit: close");
@@ -159,7 +164,7 @@ export default {
       inputValue,
       sliderItems,
       showOverlay,
-
+      showModal,
       close,
       click,
       onFileSelected
