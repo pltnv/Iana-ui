@@ -1,6 +1,7 @@
 <script setup>
 import { computed, ref } from "vue";
 import IOverlay from "../IOverlay/IOverlay.vue";
+import IButton from "../IButton/IButton.vue";
 
 const props = defineProps({
   id: String,
@@ -8,7 +9,7 @@ const props = defineProps({
   persistent: Boolean,
   size: {
     type: String,
-    default: "lg",
+    default: "dialog",
     validator: (value) => {
       return ["dialog", "sm", "md", "lg"].indexOf(value) !== -1;
     }
@@ -22,7 +23,7 @@ const props = defineProps({
   disabledAcceptButton: Boolean
 });
 
-const emit = defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue", "accept", "cancel"]);
 
 let modalVisible = ref(props.value);
 
@@ -34,17 +35,52 @@ const closeOutside = () => {
     close();
   }
 };
+
+const accept = () => {
+  emit("accept");
+};
+
+const cancel = () => {
+  emit("cancel");
+};
 </script>
 
 <template>
   <div v-if="modelValue">
     <div class="i-modal" :class="`i-modal--${size}`">
-      <template v-if="$slots.title">
-        <slot />
+      <div>
+        <template v-if="$slots.title">
+          <slot name="title" />
+        </template>
+        <div v-else class="i-modal__title" v-text="title" />
+        <i class="i-modal__close mdi mdi-close" @click="close" />
+      </div>
+      <div class="i-modal__default">
+        <slot name="default" />
+      </div>
+      <template>
+        <div class="i-modal__footer">
+          <template v-if="$slots.footer">
+            <slot name="footer" />
+          </template>
+          <template v-else>
+            <i-button
+              v-if="showAcceptButton"
+              size="md"
+              :disabled="disabledAcceptButton"
+              :label="acceptButtonTitle"
+              @click="accept"
+            />
+            <i-button
+              v-if="showCancelButton"
+              size="md"
+              :disabled="disabledCancelButton"
+              :label="cancelButtonTitle"
+              @click="cancel"
+            />
+          </template>
+        </div>
       </template>
-      <div v-else class="i-modal__title" v-text="title" />
-
-      <i class="i-modal__close mdi mdi-close" @click="close" />
     </div>
     <i-overlay @click="closeOutside" />
   </div>
@@ -95,6 +131,15 @@ const closeOutside = () => {
     top: 10px;
     right: 10px;
     padding: 4px;
+  }
+
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    height: 40px;
+    padding: 20px 10px;
+    margin-top: auto;
   }
 }
 </style>
