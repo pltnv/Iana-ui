@@ -18,6 +18,7 @@
 - **Input**
 - **Slider**
 - **Overlay**
+- **Modal**
 
 ## Directives
 
