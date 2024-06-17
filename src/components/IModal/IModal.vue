@@ -15,6 +15,7 @@ const props = defineProps({
     }
   },
   title: String,
+  dialogText: String,
   showAcceptButton: Boolean,
   showCancelButton: Boolean,
   acceptButtonTitle: String,
@@ -27,6 +28,14 @@ const emit = defineEmits(["update:modelValue", "accept", "cancel"]);
 
 let modalVisible = ref(props.value);
 
+const acceptButtonTitle = computed(() =>
+  props.acceptButtonTitle ? props.acceptButtonTitle : "Подтвердить"
+);
+
+const cancelButtonTitle = computed(() =>
+  props.cancelButtonTitle ? props.cancelButtonTitle : "Отменить"
+);
+
 const close = () => {
   emit("update:modelValue", false);
 };
@@ -38,30 +47,33 @@ const closeOutside = () => {
 
 const accept = () => {
   emit("accept");
+  close();
 };
 
 const cancel = () => {
+  close();
   emit("cancel");
 };
 </script>
 
 <template>
-  <div v-if="modelValue">
-    <div class="i-modal" :class="`i-modal--${size}`">
-      <div>
-        <template v-if="$slots.title">
-          <slot name="title" />
-        </template>
-        <div v-else class="i-modal__title" v-text="title" />
+  <teleport to="#modal">
+    <div v-if="modelValue">
+      <div class="i-modal" :class="`i-modal--${size}`">
+        <div>
+          <template v-if="$slots.title">
+            <slot name="title" />
+          </template>
+          <div v-else class="i-modal__title" v-text="title" />
 
-        <i class="i-modal__close mdi mdi-close" @click="close" />
-      </div>
+          <i class="i-modal__close mdi mdi-close" @click="close" />
+        </div>
 
-      <div class="i-modal__default">
-        <slot name="default" />
-      </div>
+        <div v-if="$slots.default" class="i-modal__default">
+          <slot name="default" />
+        </div>
+        <div v-else-if="dialogText && size === 'dialog'" v-text="dialogText" />
 
-      <template>
         <div class="i-modal__footer">
           <template v-if="$slots.footer">
             <slot name="footer" />
@@ -84,10 +96,10 @@ const cancel = () => {
             />
           </template>
         </div>
-      </template>
+      </div>
+      <i-overlay @click="closeOutside" />
     </div>
-    <i-overlay @click="closeOutside" />
-  </div>
+  </teleport>
 </template>
 
 <style lang="scss">
@@ -128,6 +140,7 @@ const cancel = () => {
     font-size: 20px;
     word-break: break-word;
     padding-right: 15px;
+    padding-bottom: 4px;
   }
 
   &__close {
@@ -137,12 +150,18 @@ const cancel = () => {
     padding: 4px;
   }
 
+  &__default {
+    overflow-y: auto;
+    padding-right: 12px;
+  }
+
   &__footer {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     height: 40px;
-    padding: 20px 10px;
+    padding: 6px 0;
+    gap: 20px;
     margin-top: auto;
   }
 }

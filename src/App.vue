@@ -79,7 +79,15 @@
 
     <i-slider count="6" controller :items="sliderItems" loop />
     <i-overlay v-if="showOverlay" />
-    <i-modal v-model="showModal" title="Some text" />
+    <i-modal
+      v-model="showModal"
+      size="dialog"
+      title="Some text"
+      showAcceptButton
+      showCancelButton
+      dialogText="dialof text"
+    >
+    </i-modal>
     <button @click="showModal = true" />
   </div>
 </template>
