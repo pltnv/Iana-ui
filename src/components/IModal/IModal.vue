@@ -21,12 +21,16 @@ const props = defineProps({
   acceptButtonTitle: String,
   cancelButtonTitle: String,
   disabledCancelButton: Boolean,
-  disabledAcceptButton: Boolean
+  disabledAcceptButton: Boolean,
+  shadowEffect: Boolean
 });
 
 const emit = defineEmits(["update:modelValue", "accept", "cancel"]);
 
-let modalVisible = ref(props.value);
+const modalVisible = ref(props.value);
+const defaultBlock = ref(null);
+
+const isShadowEffectVisible = ref(false);
 
 const acceptButtonTitle = computed(() =>
   props.acceptButtonTitle ? props.acceptButtonTitle : "Подтвердить"
@@ -62,9 +66,27 @@ const escHandler = (e) => {
   }
 };
 
-onMounted(() => document.addEventListener("keyup", escHandler));
+onMounted(() => {
+  if (props.shadowEffect) {
+    const { scrollHeight, clientHeight } = defaultBlock.value;
+    if (scrollHeight > clientHeight) {
+      isShadowEffectVisible.value = true;
+    }
+  }
+
+  document.addEventListener("keyup", escHandler);
+});
 
 onBeforeUnmount(() => document.removeEventListener("keyup", escHandler));
+
+function checkScrollEnd() {
+  const { scrollTop, scrollHeight, clientHeight } = defaultBlock.value;
+  if (scrollHeight - (scrollTop + clientHeight) <= 6) {
+    isShadowEffectVisible.value = false;
+  } else {
+    isShadowEffectVisible.value = true;
+  }
+}
 </script>
 
 <template>
@@ -80,10 +102,21 @@ onBeforeUnmount(() => document.removeEventListener("keyup", escHandler));
           <i class="i-modal__close mdi mdi-close" @click="close" />
         </div>
 
-        <div v-if="$slots.default" class="i-modal__default">
-          <slot name="default" />
+        <div class="default">
+          <div
+            v-if="$slots.default || dialogText"
+            ref="defaultBlock"
+            @scroll="checkScrollEnd"
+            class="i-modal__default"
+            :class="{ 'shadow-effect': shadowEffect && isShadowEffectVisible }"
+          >
+            <template v-if="$slots.default"> <slot name="default" /></template>
+            <div
+              v-else-if="dialogText && size === 'dialog'"
+              v-text="dialogText"
+            />
+          </div>
         </div>
-        <div v-else-if="dialogText && size === 'dialog'" v-text="dialogText" />
 
         <div class="i-modal__footer">
           <template v-if="$slots.footer">
@@ -164,6 +197,22 @@ onBeforeUnmount(() => document.removeEventListener("keyup", escHandler));
   &__default {
     overflow-y: auto;
     padding-right: 12px;
+    height: calc(100% - 2px);
+  }
+
+  &__default.shadow-effect::before {
+    position: absolute;
+    content: "";
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 16px;
+    background: linear-gradient(to top, #f6f6f6, transparent);
+    visibility: visible;
+  }
+
+  &__default::before {
+    visibility: hidden;
   }
 
   &__footer {
@@ -174,6 +223,13 @@ onBeforeUnmount(() => document.removeEventListener("keyup", escHandler));
     padding: 6px 0;
     gap: 20px;
     margin-top: auto;
+  }
+
+  .default {
+    position: relative;
+    overflow-y: hidden;
+    height: calc(100% - 40px);
+    padding-right: 12px;
   }
 }
 </style>

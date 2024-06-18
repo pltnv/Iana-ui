@@ -80,13 +80,36 @@
     <i-slider count="6" controller :items="sliderItems" loop />
     <i-overlay v-if="showOverlay" />
     <i-modal
+      v-if="showModal"
       v-model="showModal"
-      size="dialog"
+      size="md"
       title="Some text"
       showAcceptButton
       showCancelButton
-      dialogText="dialof text"
+      shadowEffect
     >
+      fiejfioj34ifoj34ofj314oijfg34iojgfio43jfio
+      <br />
+      fiejfioj34ifoj34ofj314oijfg34iojgfio43jfio
+      <br />
+      fiejfioj34ifoj34ofj314oijfg34iojgfio43jfio
+      <br />
+      fiejfioj34ifoj34ofj314oijfg34iojgfio43jfio
+      <br />
+      fiejfioj34ifoj34ofj314oijfg34iojgfio43jfio
+      <br />
+      fiejfioj34ifoj34ofj314oijfg34iojgfio43jfio
+      <br />
+      fiejfioj34ifoj34ofj314oijfg34iojgfio43jfio
+      <br />
+      fiejfioj34ifoj34ofj314oijfg34iojgfio43jfio
+      <br />
+      <br />
+      fiejfioj34ifoj34ofj314oijfg34iojgfio43jfio
+      <br />
+      fiejfioj34ifoj34ofj314oijfg34iojgfio43jfio
+      <br />
+      fiejfioj34ifoj34ofj314oijfg34iojgfio43jfio
     </i-modal>
     <button @click="showModal = true" />
   </div>
