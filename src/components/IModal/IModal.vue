@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from "vue";
+import { onMounted, onBeforeUnmount, computed, ref } from "vue";
 import IOverlay from "../IOverlay/IOverlay.vue";
 import IButton from "../IButton/IButton.vue";
 
@@ -54,6 +54,17 @@ const cancel = () => {
   close();
   emit("cancel");
 };
+
+const escHandler = (e) => {
+  // 27 === Esc
+  if (e.keyCode === 27) {
+    close();
+  }
+};
+
+onMounted(() => document.addEventListener("keyup", escHandler));
+
+onBeforeUnmount(() => document.removeEventListener("keyup", escHandler));
 </script>
 
 <template>
