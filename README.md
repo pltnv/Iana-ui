@@ -16,7 +16,6 @@
 - **Tip**
 - **Checkbox**
 - **Input**
-- **Slider**
 - **Overlay**
 - **Modal**
 
