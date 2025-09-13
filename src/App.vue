@@ -60,7 +60,7 @@
       multiple
     />
 
-    <i-code
+    <IOTPInput
       v-model="otp"
       amount="4"
       divider="*"
@@ -124,7 +124,7 @@ import INotifications from "./components/INotifications/INotifications.vue";
 import IUpload from "./components/IUpload/IUpload.vue";
 import IAccordion from "./components/IAccordion/IAccordion.vue";
 import ISelect from "./components/ISelect/ISelect.vue";
-import ICode from "./components/ICode/ICode.vue";
+import IOTPInput from "./components/IOTPInput/IOTPInput.vue";
 import IInput from "./components/IInput/IInput.vue";
 import ISlider from "./components/ISlider/ISlider.vue";
 import IModal from "./components/IModal/IModal.vue";
@@ -140,7 +140,7 @@ export default {
     IUpload,
     IAccordion,
     ISelect,
-    ICode,
+    IOTPInput,
     IInput,
     ISlider,
     IModal,

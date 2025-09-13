@@ -6,7 +6,7 @@
     :disabled="disabled"
     class="i-button"
     :class="classes"
-    :style="{ color: color, borderRadius: round }"
+    :style="{ borderRadius: round }"
     @click="handleClick"
   >
     <i
@@ -16,7 +16,7 @@
       :style="{ color: iconLeftColor }"
     ></i>
 
-    <span v-if="label" class="i-button__label"> {{ label }}</span>
+    <span v-if="label" class="i-button__label">{{ label }}</span>
 
     <i
       v-if="iconRight"
@@ -27,148 +27,154 @@
   </button>
 </template>
 
-<script>
-import { defineComponent, computed } from "vue";
+<script setup>
+import { computed } from "vue";
 
-export default defineComponent({
-  name: "I-Button",
-  props: {
-    id: String,
-    name: String,
-    label: String,
-    color: String,
-    type: {
-      type: String,
-      default: "button",
-      validator: (value) => {
-        return ["button", "submit", "reset"].indexOf(value) !== -1;
-      }
-    },
-    round: String,
-    rounded: Boolean,
-    size: {
-      type: String,
-      default: "sm",
-      validator: (value) => {
-        return ["xs", "sm", "md", "lg", "xl"].indexOf(value) !== -1;
-      }
-    },
-    variant: {
-      type: String,
-      default: "default",
-      validator: (value) => {
-        return (
-          ["default", "flat", "outlined", "text", "plain"].indexOf(value) !== -1
-        );
-      }
-    },
-    block: { type: Boolean, default: false },
-    disabled: { type: Boolean, default: false },
-    ripple: { type: Boolean, default: false },
-    iconLeft: String,
-    iconRight: String,
-    iconRightColor: String,
-    iconLeftColor: String
+const props = defineProps({
+  id: String,
+  name: String,
+  label: String,
+  color: { type: String, default: "#1d4ed8" }, // по умолчанию — синий
+  type: {
+    type: String,
+    default: "button",
+    validator: (v) => ["button", "submit", "reset"].includes(v)
   },
-  setup(props, { emit }) {
-    const classes = computed(() => {
-      return {
-        "i-button--block": props.block,
-        "i-button--rounded": props.rounded,
-        [`i-button--${props.size}`]: true,
-        [`i-button--${props.variant}`]: true
-      };
-    });
-
-    const handleClick = () => {
-      emit("click");
-    };
-
-    return { classes, handleClick };
-  }
+  round: { type: String, default: "6px" },
+  rounded: Boolean,
+  size: {
+    type: String,
+    default: "sm",
+    validator: (v) => ["xs", "sm", "md", "lg", "xl"].includes(v)
+  },
+  variant: {
+    type: String,
+    default: "default",
+    validator: (v) =>
+      ["default", "flat", "outlined", "text", "plain"].includes(v)
+  },
+  block: { type: Boolean, default: false },
+  disabled: { type: Boolean, default: false },
+  ripple: { type: Boolean, default: false },
+  iconLeft: String,
+  iconRight: String,
+  iconRightColor: String,
+  iconLeftColor: String
 });
+
+const emit = defineEmits(["click"]);
+
+const classes = computed(() => ({
+  "i-button--block": props.block,
+  "i-button--rounded": props.rounded,
+  [`i-button--${props.size}`]: true,
+  [`i-button--${props.variant}`]: true
+}));
+
+const handleClick = () => {
+  if (!props.disabled) {
+    emit("click");
+  }
+};
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .i-button {
-  display: inline-block;
+  display: inline-flex;
   align-items: center;
-  padding: 10px;
-  width: 140px; // to fix
-  background-color: transparent;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 1px 2px;
-  border: none;
+  justify-content: center;
+  gap: 6px;
+  font-weight: 500;
+  padding: 0 14px;
+  min-width: fit-content;
+  transition: all 0.25s ease;
   cursor: pointer;
+  border: none;
+  background-color: var(--btn-color, #1d4ed8);
+  color: #fff;
+  user-select: none;
 
   &--block {
     width: 100%;
-    justify-content: center;
   }
 
   &--xs {
-    height: 20px;
+    height: 24px;
+    font-size: 12px;
   }
 
   &--sm {
-    height: 28px;
+    height: 32px;
+    font-size: 14px;
   }
 
   &--md {
-    height: 36px;
+    height: 40px;
+    font-size: 15px;
   }
 
   &--lg {
-    height: 44px;
+    height: 48px;
+    font-size: 16px;
   }
 
   &--xl {
-    height: 52px;
+    height: 56px;
+    font-size: 18px;
   }
 
   &--rounded {
-    border-radius: 10px;
+    border-radius: 9999px;
+  }
+
+  &--default {
+    background-color: v-bind("color");
+    &:hover {
+      filter: brightness(1.1);
+    }
+    &:active {
+      filter: brightness(0.9);
+    }
   }
 
   &--flat {
     background-color: transparent;
-    transition: background-color 0.3s ease;
-
+    color: v-bind("color");
     &:hover {
-      opacity: 0.6;
+      background-color: rgba(0, 0, 0, 0.05);
     }
   }
 
   &--outlined {
-    box-shadow: none;
-    border: 1px solid gray;
-
+    background-color: transparent;
+    border: 1px solid v-bind("color");
+    color: v-bind("color");
     &:hover {
-      opacity: 0.6;
+      background-color: rgba(0, 0, 0, 0.05);
     }
   }
 
   &--text {
-    border: none;
-    box-shadow: none;
-  }
-
-  &:hover {
-    background: rgb(237, 235, 235);
+    background: none;
+    color: v-bind("color");
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   &--plain {
-    border: none;
-    box-shadow: none;
-
-    &:hover {
-      background: none;
-    }
+    background: none;
+    color: inherit;
   }
 
   &:disabled {
     pointer-events: none;
-    background: none;
     opacity: 0.5;
+  }
+
+  &__icon-left,
+  &__icon-right {
+    font-size: 1.2em;
   }
 }
 </style>

@@ -1,58 +1,85 @@
-import { fn } from "@storybook/test";
 import IButton from "../components/IButton/IButton.vue";
 
-function cons() {
-  console.log("e");
-}
-
 export default {
-  title: "IButton",
+  title: "Components/I-Button",
   component: IButton,
   tags: ["autodocs"],
   argTypes: {
-    variant: {
-      control: { type: "select" },
-      options: ["default", "flat", "outlined", "text", "plain"]
-    },
+    label: { control: "text", description: "Текст внутри кнопки" },
     size: {
       control: { type: "select" },
-      options: ["xs", "sm", "md", "lg", "xl"]
-    }
+      options: ["xs", "sm", "md", "lg", "xl"],
+      description: "Размер кнопки"
+    },
+    variant: {
+      control: { type: "select" },
+      options: ["default", "flat", "outlined", "text", "plain"],
+      description: "Вариант отображения"
+    },
+    color: { control: "color", description: "Основной цвет кнопки" },
+    disabled: { control: "boolean", description: "Отключает кнопку" },
+    block: { control: "boolean", description: "Растягивает на всю ширину" },
+    rounded: { control: "boolean", description: "Закруглённые углы" },
+    iconLeft: { control: "text", description: "Иконка слева (mdi-класс)" },
+    iconRight: { control: "text", description: "Иконка справа (mdi-класс)" }
   },
-  args: { onClick: fn() }
-};
-
-export const Primary = {
   args: {
-    primary: true,
-    label: "Button"
+    label: "Кнопка",
+    size: "md",
+    variant: "default",
+    color: "#1d4ed8",
+    disabled: false,
+    block: false,
+    rounded: false,
+    iconLeft: "",
+    iconRight: ""
   }
 };
 
-export const Outlined = {
-  args: {
-    variant: "outlined",
-    label: "Button"
-  }
-};
+const Template = (args) => ({
+  components: { IButton },
+  setup() {
+    return { args };
+  },
+  template: '<IButton v-bind="args" />'
+});
 
-export const Flat = {
-  args: {
-    variant: "flat",
-    label: "Button"
-  }
-};
+export const Default = Template.bind({});
+Default.args = { label: "Кнопка" };
 
-export const Text = {
-  args: {
-    variant: "text",
-    label: "Button"
-  }
-};
+export const Variants = () => ({
+  components: { IButton },
+  template: `
+    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+      <IButton label="Default" variant="default" />
+      <IButton label="Flat" variant="flat" color="#9333ea" />
+      <IButton label="Outlined" variant="outlined" color="#ef4444" />
+      <IButton label="Text" variant="text" color="#16a34a" />
+      <IButton label="Plain" variant="plain" />
+    </div>
+  `
+});
 
-export const Plain = {
-  args: {
-    variant: "plain",
-    label: "Button"
-  }
-};
+export const Sizes = () => ({
+  components: { IButton },
+  template: `
+    <div style="display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+      <IButton label="XS" size="xs" />
+      <IButton label="SM" size="sm" />
+      <IButton label="MD" size="md" />
+      <IButton label="LG" size="lg" />
+      <IButton label="XL" size="xl" />
+    </div>
+  `
+});
+
+export const WithIcons = () => ({
+  components: { IButton },
+  template: `
+    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+      <IButton label="Поиск" iconLeft="mdi-magnify" />
+      <IButton label="Вперёд" iconRight="mdi-arrow-right" color="#16a34a" />
+      <IButton iconLeft="mdi-heart" iconRight="mdi-star" variant="outlined" color="#ef4444" />
+    </div>
+  `
+});
