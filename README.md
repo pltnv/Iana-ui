@@ -28,7 +28,7 @@ Vue 3 UI component library. Features a collection of customizable, accessible, a
 
 - **click-outside**
 
-## <img src="https://storybook.js.org/images/logos/icon-storybook.svg" width="20" height="20" alt="Storybook"> Documentation
+## <img src="https://storybook.js.org/images/logos/icon-storybook.png" width="20" height="20" alt="Storybook"> Documentation
 
 Full documentation and examples available in Storybook.
 
