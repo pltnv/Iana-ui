@@ -1,3 +1,5 @@
+import "@mdi/font/css/materialdesignicons.css";
+
 /** @type { import('@storybook/vue3').Preview } */
 const preview = {
   parameters: {
