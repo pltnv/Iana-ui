@@ -7,7 +7,7 @@
   </a>
 </p>
 
-# 💖 Iana-UI Library
+# 🦋 Iana-UI Library
 
 Vue 3 UI component library. Features a collection of customizable, accessible, and production-ready components. All components are developed, tested, and documented using Storybook, providing an interactive playground for development and design consistency.
 
@@ -28,7 +28,7 @@ Vue 3 UI component library. Features a collection of customizable, accessible, a
 
 - **click-outside**
 
-## 📖 Documentation
+## <img src="https://storybook.js.org/images/logos/icon-storybook.svg" width="20" height="20" alt="Storybook"> Documentation
 
 Full documentation and examples available in Storybook.
 
