@@ -1,18 +1,12 @@
 <template>
-  <div
-    :id="id"
-    :name="name"
-    class="i-select"
-    :class="selectClasses"
-    v-click-outside="clickOutside"
-  >
+  <div class="i-select" :class="selectClasses" v-click-outside="clickOutside">
     <div
       class="i-select__label"
       :class="labelClasses"
       @click="toggleShowOptions"
     >
-      <div v-if="selectedItem" v-text="selectedItem.text" />
-      <div v-else v-text="label" />
+      <span v-if="selectedItem?.text">{{ selectedItem.text }}</span>
+      <span v-else class="i-select__placeholder">{{ label }}</span>
 
       <div class="chevron" :class="{ 'chevron--up': showOptions }">
         <i class="mdi mdi-chevron-down" />
@@ -26,7 +20,7 @@
           :key="item.value"
           class="i-select__option"
           :class="{
-            'i-select__option--active': item.value == selectedItem.value
+            'i-select__option--active': item.value === selectedItem?.value
           }"
           @click="selectItem(item)"
         >
@@ -37,97 +31,87 @@
   </div>
 </template>
 
-<script>
-import { ref, watch, computed, toRef } from "vue";
+<script setup>
+import { ref, watch, computed } from "vue";
 
-export default {
-  name: "ISelect",
-  props: {
-    id: String,
-    name: String,
-    modelValue: Object,
-    items: Array,
-    label: String,
-    multiple: Boolean,
-    maxWidth: String,
-    minWidth: String,
-    disabled: Boolean,
-    readonly: Boolean,
-    block: Boolean,
-    variant: {
-      type: String,
-      default: "default",
-      validator: (value) => {
-        return ["default", "underline"].indexOf(value) !== -1;
-      }
-    },
-    type: {
-      type: String,
-      default: "default",
-      validator: (value) => {
-        return ["default", "rounded"].indexOf(value) !== -1;
-      }
-    },
-    clearable: Boolean
+const props = defineProps({
+  id: String,
+  name: String,
+  modelValue: Object,
+  items: {
+    type: Array,
+    default: () => []
   },
-  emits: ["update:modelValue"],
+  label: {
+    type: String,
+    default: "Выберите значение"
+  },
+  multiple: Boolean,
+  disabled: Boolean,
+  readonly: Boolean,
+  block: Boolean,
+  variant: {
+    type: String,
+    default: "default",
+    validator: (v) => ["default", "underline"].includes(v)
+  },
+  type: {
+    type: String,
+    default: "default",
+    validator: (v) => ["default", "rounded"].includes(v)
+  },
+  clearable: Boolean
+});
 
-  setup(props, { emit }) {
-    let showOptions = ref(false);
-    let selectedItem = ref(props.modelValue || {});
-    let modelValueRef = toRef(props, "modelValue");
+const emit = defineEmits(["update:modelValue"]);
 
-    const selectClasses = computed(() => {
-      return {
-        "i-select--disabled": props.disabled,
-        "i-select--readonly": props.readonly,
-        "i-select--block": props.block
-      };
-    });
+const showOptions = ref(false);
+const selectedItem = ref(props.modelValue || null);
 
-    const labelClasses = computed(() => {
-      return [
-        `i-select__label--${props.variant}`,
-        `i-select__label--${props.type}`
-      ];
-    });
+const selectClasses = computed(() => ({
+  "i-select--disabled": props.disabled,
+  "i-select--readonly": props.readonly,
+  "i-select--block": props.block
+}));
 
-    const toggleShowOptions = () => {
-      showOptions.value = !showOptions.value;
-    };
+const labelClasses = computed(() => [
+  `i-select__label--${props.variant}`,
+  `i-select__label--${props.type}`
+]);
 
-    const selectItem = (itemValue) => {
-      selectedItem.value = itemValue;
-      showOptions.value = false;
-      emit("update:modelValue", selectedItem.value);
-    };
-
-    const clickOutside = () => {
-      showOptions.value = false;
-    };
-
-    watch(modelValueRef, (updatedModelValueRef) => {
-      selectedItem.value = updatedModelValueRef;
-    });
-
-    return {
-      showOptions,
-      selectedItem,
-      modelValueRef,
-      selectClasses,
-      labelClasses,
-
-      toggleShowOptions,
-      selectItem,
-      clickOutside
-    };
+const toggleShowOptions = () => {
+  if (!props.disabled && !props.readonly) {
+    showOptions.value = !showOptions.value;
   }
 };
+
+const selectItem = (item) => {
+  selectedItem.value = item;
+  showOptions.value = false;
+  emit("update:modelValue", item);
+};
+
+const clickOutside = () => {
+  showOptions.value = false;
+};
+
+watch(
+  () => props.modelValue,
+  (val) => {
+    selectedItem.value = val;
+  }
+);
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .i-select {
-  width: 300px;
+  width: 280px;
+  font-size: 14px;
+  position: relative;
+
+  &--block {
+    width: 100%;
+  }
 
   &--disabled {
     pointer-events: none;
@@ -136,31 +120,40 @@ export default {
 
   &--readonly {
     pointer-events: none;
-    opacity: 1;
-  }
-
-  &--block {
-    width: 100%;
+    opacity: 0.8;
   }
 
   &__label {
     display: flex;
     justify-content: space-between;
-    padding: 10px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 1px 2px;
-    border-bottom: 1px solid transparent;
+    align-items: center;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background: #fff;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &:hover {
+      border-color: #9ca3af;
+    }
 
     &--underline {
-      box-shadow: none;
-      border-bottom: 1px solid rgb(105, 104, 104);
+      border: none;
+      border-bottom: 1px solid #d1d5db;
+      border-radius: 0;
     }
 
     &--rounded {
-      border-radius: 10px;
+      border-radius: 9999px;
+    }
+
+    .i-select__placeholder {
+      color: #9ca3af;
     }
 
     .chevron {
-      transition: all 0.1s linear;
+      transition: transform 0.2s ease-in-out;
 
       &--up {
         transform: rotate(180deg);
@@ -169,30 +162,42 @@ export default {
   }
 
   .options {
-    border-top: 1px solid rgb(105, 104, 104);
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+    z-index: 10;
   }
 
   &__option {
-    padding: 10px;
+    padding: 10px 12px;
+    cursor: pointer;
+    transition: background 0.2s;
 
     &:hover {
-      background: #f0f0f0;
+      background: #f3f4f6;
     }
 
-    &.i-select__option--active {
-      background: #b9b6b6;
+    &--active {
+      background: #e5e7eb;
+      font-weight: 500;
     }
   }
 
   .options-enter-active,
   .options-leave-active {
-    transition: opacity 0.1s ease-in;
+    transition: opacity 0.15s ease, transform 0.15s ease;
   }
 
   .options-enter-from,
   .options-leave-to {
     opacity: 0;
+    transform: translateY(-5px);
   }
 }
 </style>

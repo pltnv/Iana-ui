@@ -1,12 +1,15 @@
 <template>
-  <div class="i-input">
-    <div class="i-input__label">
-      <div v-if="label" v-text="label" />
+  <div class="i-input" :class="{ 'i-input--block': block }">
+    <label v-if="label" class="i-input__label" :for="id">
+      {{ label }}
       <sup v-if="required">*</sup>
-    </div>
+    </label>
+
     <div class="i-input__wrapper" :class="classes">
       <input
-        :value="localValue"
+        :id="id"
+        :name="name"
+        v-model="localValue"
         :maxlength="maxlength"
         :autofocus="autofocus"
         :disabled="disabled"
@@ -14,251 +17,206 @@
         :placeholder="placeholder"
         :readonly="readonly"
         :type="localType"
-        @blur="handleBlur"
-        @focus="handleFocus"
-        @input="updateValue($event.target.value)"
+        @blur="emit('blur')"
+        @focus="emit('focus')"
       />
-      <div v-if="clearable && localValue.length && !disabled && !readonly">
-        <i class="mdi mdi-close" @click="clear" />
+
+      <button
+        v-if="clearable && localValue.length && !disabled && !readonly"
+        class="i-input__clear"
+        type="button"
+        @click="clear"
+      >
+        <i class="mdi mdi-close"></i>
+      </button>
+
+      <div v-if="count && (amount > 0 || maxlength)" class="i-input__info">
+        <span>{{ amount }}</span>
+        <span v-if="maxlength"> / {{ maxlength }}</span>
       </div>
-      <div class="info">
-        <span v-if="count && amount > 0" v-text="amount" />
-        <span v-if="count && maxlength"> / </span>
-        <span v-if="maxlength" v-text="maxlength" />
-      </div>
-      <div v-if="isTypePassword && !disabled">
-        <i class="mdi" :class="passwordIcon" @click="toggleShowPassword" />
-      </div>
+
+      <button
+        v-if="isTypePassword && !disabled"
+        type="button"
+        class="i-input__toggle"
+        @click="toggleShowPassword"
+      >
+        <i class="mdi" :class="passwordIcon"></i>
+      </button>
     </div>
+
+    <!-- Ошибка -->
+    <p v-if="errorMessage && error" class="i-input__error">
+      {{ errorMessage }}
+    </p>
   </div>
 </template>
 
-<script>
+<script setup>
 import { computed, ref, watch } from "vue";
 
-export default {
-  name: "IInput",
-  props: {
-    id: String,
-    name: String,
-    modelValue: String,
-    autofocus: Boolean,
-    disabled: Boolean,
-    readonly: Boolean,
-    maxlength: String,
-    placeholder: String,
-    required: String,
-    showError: Boolean,
-    error: String,
-    label: String,
-    variant: {
-      type: String,
-      default: "default",
-      validator: (value) => {
-        return ["default", "outlined", "underline"].indexOf(value) !== -1;
-      }
-    },
-    size: {
-      type: String,
-      default: "sm",
-      validator: (value) => {
-        return ["xs", "sm", "md"].indexOf(value) !== -1;
-      }
-    },
-    type: {
-      type: String,
-      default: "text",
-      validator: (value) => {
-        return (
-          ["text", "phone", "email", "password", "number"].indexOf(value) !== -1
-        );
-      }
-    },
-    clearable: Boolean,
-    count: Boolean,
-    error: Boolean,
-    errorMessage: String,
-    block: Boolean
+const props = defineProps({
+  id: String,
+  name: String,
+  modelValue: String,
+  autofocus: Boolean,
+  disabled: Boolean,
+  readonly: Boolean,
+  maxlength: String,
+  placeholder: String,
+  required: Boolean,
+  showError: Boolean,
+  label: String,
+  variant: {
+    type: String,
+    default: "default",
+    validator: (value) => ["default", "outlined", "underline"].includes(value)
   },
-  emits: ["update:modelValue"],
-  setup(props, { emit }) {
-    let localValue = ref(props.modelValue);
-    let localType = ref(props.type);
-    let showPassword = ref(false);
+  size: {
+    type: String,
+    default: "sm",
+    validator: (value) => ["xs", "sm", "md"].includes(value)
+  },
+  type: {
+    type: String,
+    default: "text",
+    validator: (value) =>
+      ["text", "phone", "email", "password", "number"].includes(value)
+  },
+  clearable: Boolean,
+  count: Boolean,
+  error: Boolean,
+  errorMessage: String,
+  block: Boolean
+});
 
-    let amount = computed(() => localValue.value.length);
-    let isTypePassword = computed(() => props.type === "password");
+const emit = defineEmits(["update:modelValue", "blur", "focus"]);
 
-    let passwordIcon = computed(() => {
-      if (isTypePassword && localType.value === "password") {
-        return "mdi-eye-outline";
-      }
+const localValue = ref(props.modelValue);
+const localType = ref(props.type);
 
-      if (isTypePassword && localType.value === "text") {
-        return "mdi-eye-off-outline";
-      }
-    });
+const amount = computed(() => localValue.value?.length || 0);
+const isTypePassword = computed(() => props.type === "password");
 
-    let classes = computed(() => {
-      return [
-        `i-input--${props.variant}`,
-        {
-          error: props.error && !props.disabled,
-          "i-input--disabled": props.disabled,
-          "i-input--block": props.block
-        }
-      ];
-    });
+const passwordIcon = computed(() => {
+  if (isTypePassword.value && localType.value === "password") {
+    return "mdi-eye-outline";
+  }
+  if (isTypePassword.value && localType.value === "text") {
+    return "mdi-eye-off-outline";
+  }
+  return "";
+});
 
-    let updateValue = (newValue) => {
-      emit("update:modelValue", newValue);
-    };
+const classes = computed(() => [
+  `i-input--${props.variant}`,
+  `i-input--${props.size}`,
+  {
+    error: props.error && !props.disabled,
+    "i-input--disabled": props.disabled,
+    "i-input--block": props.block
+  }
+]);
 
-    let handleBlur = () => {
-      emit("blur");
-    };
+watch(
+  () => props.modelValue,
+  (newValue) => {
+    localValue.value = newValue;
+  }
+);
 
-    let clear = () => {
-      localValue.value = "";
-    };
+watch(localValue, (val) => {
+  emit("update:modelValue", val);
+});
 
-    let toggleShowPassword = () => {
-      if (isTypePassword.value && props.type === localType.value) {
-        localType.value = "text";
-        return;
-      }
+const clear = () => {
+  localValue.value = "";
+};
 
-      if (isTypePassword.value && props.type !== localType.value) {
-        localType.value = "password";
-        return;
-      }
-    };
-
-    let handleFocus = () => {
-      emit("focus");
-    };
-
-    watch(
-      () => props.modelValue,
-      (newValue) => {
-        localValue.value = newValue;
-      }
-    );
-
-    return {
-      localValue,
-      localType,
-      classes,
-      amount,
-      showPassword,
-      isTypePassword,
-      passwordIcon,
-
-      updateValue,
-      handleBlur,
-      handleFocus,
-      clear,
-      toggleShowPassword
-    };
+const toggleShowPassword = () => {
+  if (isTypePassword.value) {
+    localType.value = localType.value === "password" ? "text" : "password";
   }
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .i-input {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
   width: 280px;
 
   &--block {
     width: 100%;
   }
 
+  &__label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+  }
+
   &__wrapper {
     display: flex;
     align-items: center;
-    gap: 4px;
+    gap: 6px;
     position: relative;
-    width: 100%;
-    height: 30px;
-    padding: 6px;
-    border: 1px solid transparent;
-    border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    padding: 8px 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    background: #fff;
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &:focus-within {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+    }
 
     &.error {
-      border: 1px solid;
-      border-color: rgb(242, 48, 48);
-      box-shadow: none;
-    }
-
-    &--outlined {
-      border: 1px solid gray;
-      box-shadow: none;
-
-      &:focus {
-        border: none;
-      }
-
-      &:hover {
-        border: 1px solid black;
-      }
-
-      &.error {
-        border-color: rgb(242, 48, 48);
-      }
-    }
-
-    &--underline {
-      border-bottom: 1px solid gray;
-      border-radius: 0;
-      box-shadow: none;
-
-      :focus-within {
-        border-color: black;
-      }
-
-      &:hover {
-        border-bottom: 1px solid black;
-      }
-
-      &.error {
-        border: none;
-        border-bottom: 1px solid rgb(242, 48, 48);
-      }
-    }
-
-    &--disabled {
-      opacity: 0.5;
-      pointer-events: none;
-    }
-
-    &--readonly {
-      pointer-events: none;
+      border-color: #ef4444;
     }
 
     input {
-      width: 100%;
-      height: 100%;
+      flex: 1;
+      border: none;
       outline: none;
-      border: none;
-      overflow: hidden;
-      white-space: nowrap;
-    }
+      font-size: 14px;
+      color: #111;
+      background: transparent;
 
-    .clear {
-      border: none;
-      background: none;
-      cursor: pointer;
+      &::placeholder {
+        color: #9ca3af;
+      }
     }
+  }
 
-    .info {
-      display: flex;
-      align-items: center;
-      color: #676161;
-    }
+  &__clear,
+  &__toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #6b7280;
+    padding: 2px;
+    transition: color 0.2s;
 
-    i {
-      cursor: pointer;
+    &:hover {
+      color: #111;
     }
+  }
+
+  &__info {
+    font-size: 12px;
+    color: #6b7280;
+  }
+
+  &__error {
+    font-size: 12px;
+    color: #ef4444;
+    margin-top: 2px;
   }
 }
 </style>

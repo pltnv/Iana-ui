@@ -34,7 +34,7 @@ const props = defineProps({
   id: String,
   name: String,
   label: String,
-  color: { type: String, default: "#1d4ed8" }, // по умолчанию — синий
+  color: { type: String, default: "#1d4ed8" },
   type: {
     type: String,
     default: "button",

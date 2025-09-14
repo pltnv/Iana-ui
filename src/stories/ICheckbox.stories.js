@@ -4,6 +4,11 @@ export default {
   title: "Components/I-Checkbox",
   component: ICheckbox,
   parameters: {
+    docs: {
+      description: {
+        component: `I-Checkbox - компонент чекбокса с поддержкой различных размеров, цветов и состояний`
+      }
+    },
     backgrounds: {
       default: "dark",
       values: [
@@ -13,35 +18,89 @@ export default {
     }
   },
   argTypes: {
-    size: {
-      control: { type: "select" },
-      options: ["small", "medium", "large"]
-    },
-    color: {
-      control: { type: "color" }
-    },
-    hoverColor: {
-      control: { type: "color" }
-    },
-    disabled: {
-      control: { type: "boolean" }
-    },
     modelValue: {
-      control: { type: "boolean" }
+      description: "Значение чекбокса (v-model)",
+      control: { type: "boolean" },
+      table: {
+        category: "Props",
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" }
+      }
     },
     label: {
-      control: { type: "text" }
+      description: "Текст лейбла чекбокса",
+      control: { type: "text" },
+      table: {
+        category: "Props",
+        type: { summary: "string" },
+        defaultValue: { summary: "''" }
+      }
+    },
+    size: {
+      description: "Размер чекбокса",
+      control: { type: "select" },
+      options: ["small", "medium", "large"],
+      table: {
+        category: "Props",
+        type: { summary: "string" },
+        defaultValue: { summary: "'medium'" }
+      }
+    },
+    color: {
+      description: "Цвет чекбокса в активном состоянии",
+      control: { type: "color" },
+      table: {
+        category: "Props",
+        type: { summary: "string" },
+        defaultValue: { summary: "'#10b981'" }
+      }
+    },
+    hoverColor: {
+      description: "Цвет чекбокса при наведении",
+      control: { type: "color" },
+      table: {
+        category: "Props",
+        type: { summary: "string" },
+        defaultValue: { summary: "'#059669'" }
+      }
+    },
+    disabled: {
+      description: "Отключенное состояние чекбокса",
+      control: { type: "boolean" },
+      table: {
+        category: "Props",
+        type: { summary: "boolean" },
+        defaultValue: { summary: "false" }
+      }
     },
     id: {
-      control: { type: "text" }
+      description: "HTML id атрибут",
+      control: { type: "text" },
+      table: {
+        category: "Props",
+        type: { summary: "string" },
+        defaultValue: { summary: "undefined" }
+      }
     },
     name: {
-      control: { type: "text" }
+      description: "HTML name атрибут",
+      control: { type: "text" },
+      table: {
+        category: "Props",
+        type: { summary: "string" },
+        defaultValue: { summary: "undefined" }
+      }
     },
     "update:modelValue": {
-      action: "update:modelValue"
+      description: "Событие изменения значения чекбокса",
+      action: "update:modelValue",
+      table: {
+        category: "Events",
+        type: { summary: "(value: boolean) => void" }
+      }
     }
-  }
+  },
+  tags: ["autodocs"]
 };
 
 const Template = (args) => ({
@@ -59,11 +118,25 @@ Default.args = {
   label: "Checkbox label",
   modelValue: false
 };
+Default.parameters = {
+  docs: {
+    description: {
+      story: "Базовый пример использования чекбокса с лейблом."
+    }
+  }
+};
 
 export const Checked = Template.bind({});
 Checked.args = {
   label: "Checked checkbox",
   modelValue: true
+};
+Checked.parameters = {
+  docs: {
+    description: {
+      story: "Чекбокс в отмеченном состоянии."
+    }
+  }
 };
 
 export const Small = Template.bind({});
@@ -72,12 +145,26 @@ Small.args = {
   size: "small",
   modelValue: false
 };
+Small.parameters = {
+  docs: {
+    description: {
+      story: "Чекбокс маленького размера."
+    }
+  }
+};
 
 export const Large = Template.bind({});
 Large.args = {
   label: "Large checkbox",
   size: "large",
   modelValue: false
+};
+Large.parameters = {
+  docs: {
+    description: {
+      story: "Чекбокс большого размера."
+    }
+  }
 };
 
 export const Disabled = Template.bind({});
@@ -86,12 +173,26 @@ Disabled.args = {
   disabled: true,
   modelValue: false
 };
+Disabled.parameters = {
+  docs: {
+    description: {
+      story: "Отключенный чекбокс в неотмеченном состоянии."
+    }
+  }
+};
 
 export const DisabledChecked = Template.bind({});
 DisabledChecked.args = {
   label: "Disabled checked",
   disabled: true,
   modelValue: true
+};
+DisabledChecked.parameters = {
+  docs: {
+    description: {
+      story: "Отключенный чекбокс в отмеченном состоянии."
+    }
+  }
 };
 
 export const CustomColors = Template.bind({});
@@ -101,11 +202,25 @@ CustomColors.args = {
   hoverColor: "#2563eb",
   modelValue: false
 };
+CustomColors.parameters = {
+  docs: {
+    description: {
+      story: "Чекбокс с кастомными цветами (синий)."
+    }
+  }
+};
 
 export const WithoutLabel = Template.bind({});
 WithoutLabel.args = {
   label: "",
   modelValue: false
+};
+WithoutLabel.parameters = {
+  docs: {
+    description: {
+      story: "Чекбокс без лейбла."
+    }
+  }
 };
 
 export const WithIdAndName = Template.bind({});
@@ -115,8 +230,14 @@ WithIdAndName.args = {
   name: "custom-checkbox-group",
   modelValue: false
 };
+WithIdAndName.parameters = {
+  docs: {
+    description: {
+      story: "Чекбокс с заданными HTML атрибутами id и name."
+    }
+  }
+};
 
-// Группа состояний
 export const AllStates = (args) => ({
   components: { ICheckbox },
   setup() {
@@ -160,78 +281,11 @@ export const AllStates = (args) => ({
     </div>
   `
 });
-
-// Интерактивный пример
-export const InteractiveExample = (args) => ({
-  components: { ICheckbox },
-  setup() {
-    const checkboxes = [
-      { id: "opt1", label: "Option 1", value: false },
-      { id: "opt2", label: "Option 2", value: true },
-      { id: "opt3", label: "Option 3", value: false }
-    ];
-
-    const toggleAll = (value) => {
-      checkboxes.forEach((checkbox) => {
-        checkbox.value = value;
-      });
-    };
-
-    return { args, checkboxes, toggleAll };
-  },
-  template: `
-    <div style="padding: 20px; max-width: 400px;">
-      <h2>Checkbox Group Example</h2>
-      
-      <div style="margin-bottom: 20px;">
-        <ICheckbox 
-          label="Select all" 
-          :modelValue="checkboxes.every(opt => opt.value)"
-          @update:modelValue="toggleAll"
-        />
-      </div>
-      
-      <div style="display: flex; flex-direction: column; gap: 12px; border: 1px solid #e5e7eb; padding: 16px; border-radius: 8px;">
-        <ICheckbox 
-          v-for="(option, index) in checkboxes"
-          :key="option.id"
-          :label="option.label"
-          :modelValue="option.value"
-          @update:modelValue="newValue => option.value = newValue"
-          name="options"
-        />
-      </div>
-      
-      <div style="margin-top: 20px; padding: 16px; background: #f9fafb; border-radius: 8px;">
-        <h4>Selected options:</h4>
-        <ul>
-          <li v-for="option in checkboxes.filter(opt => opt.value)" :key="option.id">
-            {{ option.label }}
-          </li>
-          <li v-if="!checkboxes.some(opt => opt.value)">No options selected</li>
-        </ul>
-      </div>
-    </div>
-  `
-});
-
-// Документация
-Default.parameters = {
+AllStates.parameters = {
   docs: {
     description: {
-      component: `
-# Checkbox Component
-
-Универсальный компонент чекбокса с поддержкой различных размеров, цветов и состояний.
-
-## Features
-- Поддержка размеров: small, medium, large
-- Кастомные цвета для состояний
-- Полная доступность (ARIA)
-- Поддержка v-model
-- Темная тема (auto-detection)
-- Disabled состояния
-      `
+      story:
+        "Демонстрация всех возможных состояний чекбокса: обычные, отключенные, разные размеры и цвета."
     }
   }
 };
