@@ -1,218 +1,136 @@
 <template>
   <div class="container">
-    <i-checkbox v-model="testValue" label="Choose" color="red" />
+    <div class="hero">
+      <h1 class="title">Iana-UI</h1>
+      <p class="subtitle">Vue 3 Component Library</p>
 
-    <i-button
-      size="md"
-      label="button"
-      iconLeft="mdi-chevron-down"
-      iconRight="mdi-chevron-down"
-      iconLeftColor="green"
-      color="red"
-      variant="text"
-      rounded
-      @click="click"
-    />
+      <div class="instructions">
+        <h2>Getting Started</h2>
+        <p>To start the Storybook and explore components:</p>
 
-    <div class="tip">
-      <i-tip
-        id="2013"
-        tip="Use it"
-        open-delay="150"
-        close-delay="300"
-        position="bottom"
-        min-width="10px"
-        max-width="100px"
-      >
-        <template #tip> Keep trying keep keep keep keep keep</template>
-        <i-button
-          size="md"
-          label="Show me a tip"
-          iconLeftColor="green"
-          color="red"
-          variant="outlined"
-          rounded
-        />
-      </i-tip>
+        <div class="code-block">
+          <pre><code>yarn storybook dev</code></pre>
+        </div>
+
+        <p>or</p>
+
+        <div class="code-block">
+          <pre><code>npx storybook dev -p 9009</code></pre>
+        </div>
+
+        <p class="note">Then follow your console</p>
+      </div>
     </div>
-
-    <i-notifications
-      message="Item is deleted from the cart"
-      type="error"
-      duration="20000"
-      @close="close"
-    />
-
-    <i-upload multiple max-files="2" @file="onFileSelected" />
-
-    <i-accordion
-      title="What is FAQ?"
-      content="It's a list of questions and answers relating to a particular subject, especially one giving basic information for users of a website"
-      width="300"
-      round="8"
-      block
-    />
-
-    <i-select
-      v-model="selectedItem"
-      :items="selectItems"
-      label="Choose smth"
-      multiple
-    />
-
-    <IOTPInput
-      v-model="otp"
-      amount="4"
-      divider="*"
-      type="text"
-      size="md"
-      border-color="green"
-    />
-
-    <i-input
-      v-model="inputValue"
-      maxlength="100"
-      variant="outlined"
-      count
-      clearable
-    />
-
-    <i-slider count="6" controller :items="sliderItems" loop />
-    <i-overlay v-if="showOverlay" />
-    <i-modal
-      v-if="showModal"
-      v-model="showModal"
-      size="md"
-      title="Some text"
-      showAcceptButton
-      showCancelButton
-      shadowEffect
-    >
-      fiejfioj34ifoj34ofj314oijfg34iojgfio43jfio
-      <br />
-      fiejfioj34ifoj34ofj314oijfg34iojgfio43jfio
-      <br />
-      fiejfioj34ifoj34ofj314oijfg34iojgfio43jfio
-      <br />
-      fiejfioj34ifoj34ofj314oijfg34iojgfio43jfio
-      <br />
-      fiejfioj34ifoj34ofj314oijfg34iojgfio43jfio
-      <br />
-      fiejfioj34ifoj34ofj314oijfg34iojgfio43jfio
-      <br />
-      fiejfioj34ifoj34ofj314oijfg34iojgfio43jfio
-      <br />
-      fiejfioj34ifoj34ofj314oijfg34iojgfio43jfio
-      <br />
-      <br />
-      fiejfioj34ifoj34ofj314oijfg34iojgfio43jfio
-      <br />
-      fiejfioj34ifoj34ofj314oijfg34iojgfio43jfio
-      <br />
-      fiejfioj34ifoj34ofj314oijfg34iojgfio43jfio
-    </i-modal>
-    <button @click="showModal = true" />
   </div>
 </template>
 
-<script>
-import { ref } from "vue";
-import ICheckbox from "./components/ICheckbox/ICheckbox.vue";
-import IButton from "./components/IButton/IButton.vue";
-import ITip from "./components/ITip/ITip.vue";
-import INotifications from "./components/INotifications/INotifications.vue";
-import IUpload from "./components/IUpload/IUpload.vue";
-import IAccordion from "./components/IAccordion/IAccordion.vue";
-import ISelect from "./components/ISelect/ISelect.vue";
-import IOTPInput from "./components/IOTPInput/IOTPInput.vue";
-import IInput from "./components/IInput/IInput.vue";
-import ISlider from "./components/ISlider/ISlider.vue";
-import IModal from "./components/IModal/IModal.vue";
-import IOverlay from "./components/IOverlay/IOverlay.vue";
-
-export default {
-  name: "App.vue",
-  components: {
-    ICheckbox,
-    IButton,
-    ITip,
-    INotifications,
-    IUpload,
-    IAccordion,
-    ISelect,
-    IOTPInput,
-    IInput,
-    ISlider,
-    IModal,
-    IOverlay
-  },
-  setup(props, { emit }) {
-    let testValue = ref(true);
-    let selectedFile = ref();
-    let otp = ref("123355");
-
-    let selectedItem = ref({ text: "Third option", value: "third" });
-    const selectItems = ref([
-      { text: "Choose smth", value: "" },
-      { text: "First option", value: "first" },
-      { text: "Second option", value: "second" },
-      { text: "Third option", value: "third" }
-    ]);
-
-    let inputValue = ref("text");
-
-    const sliderItems = ref([
-      { text: "f", src: "../src/assets/sliderImages/1.jpeg", alt: "first" },
-      {
-        text: "s",
-        src: "../src/assets/sliderImages/2.png",
-        alt: "second"
-      },
-      { text: "th", src: "../src/assets/sliderImages/3.jpeg", alt: "third" }
-    ]);
-
-    let showOverlay = ref(false);
-    let showModal = ref(false);
-
-    const close = () => {
-      alert("emit: close");
-    };
-
-    const click = () => {
-      alert("emit: click");
-    };
-
-    const onFileSelected = (files) => {
-      selectedFile.value = files.value;
-    };
-
-    return {
-      testValue,
-      selectedFile,
-      selectItems,
-      selectedItem,
-      otp,
-      inputValue,
-      sliderItems,
-      showOverlay,
-      showModal,
-      close,
-      click,
-      onFileSelected
-    };
-  }
-};
-</script>
-
 <style scoped lang="scss">
 .container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
 
-  .tip {
-    width: 130px;
-    margin-left: 40px;
+  .hero {
+    text-align: center;
+    color: white;
+    max-width: 600px;
+
+    .title {
+      font-size: 3.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #ff4785 0%, #ff6b9c 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      color: #cccccc;
+      margin-bottom: 3rem;
+    }
+
+    .instructions {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 2rem;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+
+      h2 {
+        margin-top: 0;
+        color: #ffffff;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      p {
+        color: #cccccc;
+        margin-bottom: 1.5rem;
+        line-height: 1.5;
+      }
+
+      .code-block {
+        background: #2d2d2d;
+        border-radius: 6px;
+        padding: 1rem;
+        margin: 1rem 0;
+        border: 1px solid #404040;
+
+        pre {
+          margin: 0;
+          overflow-x: auto;
+
+          code {
+            color: #f8f8f2;
+            font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+          }
+        }
+      }
+
+      .note {
+        font-size: 0.9rem;
+        color: #888888;
+        margin-top: 2rem;
+
+        a {
+          color: #ff6b9c;
+          text-decoration: none;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    .hero {
+      .title {
+        font-size: 2.5rem;
+      }
+
+      .instructions {
+        padding: 1.5rem;
+
+        .code-block {
+          pre code {
+            font-size: 0.8rem;
+          }
+        }
+      }
+    }
   }
 }
 </style>
