@@ -4,7 +4,7 @@
   </a>
 </p>
 
-# 🦋 Iana-UI Library
+# 🦋 Iana-UI
 
 Vue 3 UI component library. Features a collection of customizable, accessible components. All components are developed, tested, and documented using Storybook, providing an interactive playground for development and design consistency.
 
