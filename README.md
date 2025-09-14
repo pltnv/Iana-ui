@@ -2,9 +2,6 @@
   <a href="https://github.com/storybookjs/storybook/tree/next/code/renderers/vue3">
     <img src="https://img.shields.io/badge/Developed%20with-Storybook-FF4785?logo=storybook&logoColor=white" alt="storybook">
   </a>
-  <a href="https://v3.vuejs.org/">
-    <img src="https://img.shields.io/badge/vue-3-brightgreen" alt="vue 3">
-  </a>
 </p>
 
 # 🦋 Iana-UI Library
