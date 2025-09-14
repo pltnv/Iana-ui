@@ -7,7 +7,7 @@
   </a>
 </p>
 
-# &#x1F9CA; Iana-UI Library
+# 💖 Iana-UI Library
 
 Vue 3 UI component library. Features a collection of customizable, accessible, and production-ready components. All components are developed, tested, and documented using Storybook, providing an interactive playground for development and design consistency.
 
@@ -30,7 +30,19 @@ Vue 3 UI component library. Features a collection of customizable, accessible, a
 
 ## 📖 Documentation
 
-Full documentation and examples available in Storybook. Run `npx storybook dev -p 9009` or `yarn storybook dev` to explore component APIs, usage examples, and interactive demos.
+Full documentation and examples available in Storybook.
+
+Run
+
+```
+yarn storybook dev
+```
+
+or
+
+```
+npx storybook dev -p 9009
+```
 
 ## Project setup
 
