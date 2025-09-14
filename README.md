@@ -41,6 +41,10 @@ or
 npx storybook dev -p 9009
 ```
 
+### Icon Support
+
+The library includes Material Design Icons (MDI). When using components that accept icons, simply use the `mdi-` prefix followed by the icon name.
+
 ## Project setup
 
 ```
