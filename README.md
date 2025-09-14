@@ -2,9 +2,14 @@
   <a href="https://github.com/storybookjs/storybook/tree/next/code/renderers/vue3">
     <img src="https://img.shields.io/badge/storybook-8.1-brightgreen.svg" alt="storybook">
   </a>
+   <a href="https://v3.vuejs.org/">
+    <img src="https://img.shields.io/badge/vue-3-brightgreen" alt="vue 3">
+  </a>
  </p>
 
 # &#x1F9CA; Iana-UI Library
+
+ Vue 3 UI component library. Features a collection of customizable, accessible, and production-ready components. All components are developed, tested, and documented using Storybook, providing an interactive playground for development and design consistency.
 
 ## Components
 
@@ -22,6 +27,10 @@
 ## Directives
 
 - **click-outside**
+
+## 📖 Documentation
+
+Full documentation and examples available in Storybook. Run `npx storybook dev -p 9009` or `yarn storybook dev` to explore component APIs, usage examples, and interactive demos.
 
 ## Project setup
 
