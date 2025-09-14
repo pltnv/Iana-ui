@@ -1,15 +1,15 @@
 <p align="center">
   <a href="https://github.com/storybookjs/storybook/tree/next/code/renderers/vue3">
-    <img src="https://img.shields.io/badge/storybook-8.1-brightgreen.svg" alt="storybook">
+    <img src="https://img.shields.io/badge/Developed%20with-Storybook-FF4785?logo=storybook&logoColor=white" alt="storybook">
   </a>
-   <a href="https://v3.vuejs.org/">
+  <a href="https://v3.vuejs.org/">
     <img src="https://img.shields.io/badge/vue-3-brightgreen" alt="vue 3">
   </a>
- </p>
+</p>
 
 # &#x1F9CA; Iana-UI Library
 
- Vue 3 UI component library. Features a collection of customizable, accessible, and production-ready components. All components are developed, tested, and documented using Storybook, providing an interactive playground for development and design consistency.
+Vue 3 UI component library. Features a collection of customizable, accessible, and production-ready components. All components are developed, tested, and documented using Storybook, providing an interactive playground for development and design consistency.
 
 ## Components
 
