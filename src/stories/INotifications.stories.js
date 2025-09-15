@@ -1,11 +1,10 @@
-// I-Notifications.stories.js
 import INotifications from "../components/INotifications/INotifications.vue";
 import { ref } from "vue";
 
 export default {
-  title: "Components/I-Notifications", // Путь в Storybook
+  title: "Components/I-Notifications",
   component: INotifications,
-  tags: ["autodocs"], // Включает автоматическую генерацию docs страницы
+  tags: ["autodocs"],
   parameters: {
     docs: {
       description: {
@@ -89,7 +88,6 @@ const Template = (args) => ({
   `
 });
 
-// История по умолчанию (будет использоваться для autodocs)
 export const Default = Template.bind({});
 Default.args = {
   message: "Это стандартное уведомление",
@@ -196,7 +194,6 @@ WithHTML.args = {
   duration: 5000
 };
 
-// Демонстрация нескольких уведомлений
 export const MultipleNotifications = () => ({
   components: { INotifications },
   setup() {
