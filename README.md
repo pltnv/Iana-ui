@@ -32,7 +32,7 @@ Vue 3 UI component library. Features a collection of customizable, accessible co
 
 Full documentation and examples available in Storybook.
 
-[**👉 View Storybook Demo (via Chromatic)**](https://68caf31ad5733640d075f3da-fnodajdgns.chromatic.com/)
+[**Storybook Demo (via Chromatic)**](https://68caf31ad5733640d075f3da-fnodajdgns.chromatic.com/)
 
 Or run it locally:
 
