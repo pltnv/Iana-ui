@@ -1,7 +1,7 @@
 name: Chromatic Deployment
 on:
   push:
-    branches: [main] # Запускать только для ветки main
+    branches: [ master ]
 jobs:
   chromatic:
     runs-on: ubuntu-latest
