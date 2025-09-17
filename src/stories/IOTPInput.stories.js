@@ -1,5 +1,4 @@
 import { ref } from "vue";
-import { fn } from "@storybook/test";
 import OTPInput from "../components/IOTPInput/IOTPInput.vue";
 
 export default {
@@ -73,12 +72,7 @@ export default {
       table: { category: "Events" }
     }
   },
-  args: {
-    onUpdateModelValue: fn(),
-    onComplete: fn(),
-    onFocus: fn(),
-    onBlur: fn()
-  }
+  args: {}
 };
 
 const Template = (args) => ({

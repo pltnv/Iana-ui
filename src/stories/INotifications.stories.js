@@ -233,15 +233,18 @@ export const MultipleNotifications = () => ({
   template: `
     <div style="min-height: 400px; position: relative;">
       <div style="position: absolute; top: 20px; right: 20px; display: flex; flex-direction: column; gap: 10px;">
+      <div
+        v-for="notification in notifications"
+        :key="notification.id"
+      >
         <INotifications
-          v-for="notification in notifications"
           v-if="notification.visible"
-          :key="notification.id"
           :message="notification.message"
           :type="notification.type"
           :duration="notification.duration"
           @close="closeNotification(notification.id)"
         />
+       </div>
       </div>
       <p style="position: absolute; bottom: 10px; left: 10px;">
         Демонстрация работы нескольких уведомлений одновременно
