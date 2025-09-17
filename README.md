@@ -2,6 +2,9 @@
   <a href="https://github.com/storybookjs/storybook/tree/next/code/renderers/vue3">
     <img src="https://img.shields.io/badge/Developed%20with-Storybook-FF4785?logo=storybook&logoColor=white" alt="storybook">
   </a>
+  <a href="https://68caf31ad5733640d075f3da-fnodajdgns.chromatic.com/">
+    <img src="https://img.shields.io/badge/Visual%20tests-Chromatic-fc521f?logo=chromatic&logoColor=white" alt="Visual tests with Chromatic">
+  </a>
 </p>
 
 # 🦋 Iana-UI
@@ -29,7 +32,9 @@ Vue 3 UI component library. Features a collection of customizable, accessible co
 
 Full documentation and examples available in Storybook.
 
-Run
+[**👉 View Storybook Demo (via Chromatic)**](https://68caf31ad5733640d075f3da-fnodajdgns.chromatic.com/)
+
+Or run it locally:
 
 ```
 yarn storybook dev
