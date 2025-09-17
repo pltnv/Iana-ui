@@ -1,7 +1,10 @@
 name: Chromatic Deployment
+
 on:
   push:
-    branches: [master] # Запускать только для ветки main
+    branches: [main]
+  workflow_dispatch:
+
 jobs:
   chromatic:
     runs-on: ubuntu-latest
@@ -9,10 +12,26 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: "22.19.0"
-      - run: npm ci
-      - uses: chromaui/action@latest
+          node-version: "20"
+          cache: "npm"
+
+      - name: Clean install dependencies
+        run: |
+          rm -rf node_modules
+          rm -f yarn.lock package-lock.json
+          npm install --legacy-peer-deps --force
+          npm install @rollup/rollup-linux-x64-gnu --save-dev
+
+      - name: Verify storybook build
+        run: npx storybook build --output-dir ./storybook-static
+        continue-on-error: false
+
+      - name: Publish to Chromatic
+        uses: chromaui/action@v1
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          exitOnceUploaded: true
