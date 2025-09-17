@@ -285,7 +285,7 @@ defineExpose({
 
 .otp-input::-webkit-outer-spin-button,
 .otp-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
+  --webkit-appearance: none;
   margin: 0;
 }
 
